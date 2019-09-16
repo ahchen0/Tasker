@@ -1,0 +1,49 @@
+#!/usr/bin/python3
+## gui.py
+
+import tkinter as tk
+from tkinter import ttk
+from PIL import ImageTk, Image
+
+from GeoStarMenuBar import GeoStarMenuBar
+from GeoStarButtonBar import GeoStarButtonBar
+from GeoStarTreeView import GeoStarTreeView
+from GeoStarCanvas import GeoStarCanvas
+        
+def stopProg(e):
+    root.destroy()
+
+
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.pack(fill=tk.BOTH,expand=True)
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.master.title("GeoStar")
+        
+        self.menubar = GeoStarMenuBar(self)
+        self.menubar.pack(side="top",fill=tk.X,expand=False)
+ 
+        self.buttonbar = GeoStarButtonBar(self)
+        self.buttonbar.pack(side="top",fill=tk.X,expand=False)
+
+        self.treeview = GeoStarTreeView(self,font_size=12)
+        self.treeview.pack(side="left",fill=tk.Y,expand=True)
+        self.menubar.event_subscribe(self.treeview)
+        self.buttonbar.event_subscribe(self.treeview)
+
+        self.canvas = GeoStarCanvas(self,500,500)
+        self.canvas.pack(side="left",fill=tk.BOTH,expand=False)
+        self.treeview.event_subscribe(self.canvas)
+        self.buttonbar.event_subscribe(self.canvas)
+        self.menubar.event_subscribe(self.canvas)
+
+    
+## MAIN:
+if __name__ == "__main__":
+    root=tk.Tk()
+    App=Application(master=root)
+    App.mainloop()
