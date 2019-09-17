@@ -50,7 +50,8 @@ class TaskerButtonBar(tk.Frame):
 		popup = tk.Toplevel()
 		popup.title("Add satellites")
 		listbox = tk.Listbox(popup)
-		listbox.insert(tk.END, "a list entry")
-		for item in ["one", "two", "three", "four"]:
-			listbox.insert(tk.END, item) 
+
+		with open("satCat.txt") as file:
+			for line in file:
+				listbox.insert(tk.END, line)
 		listbox.pack()

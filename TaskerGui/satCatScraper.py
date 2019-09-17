@@ -18,7 +18,7 @@ data_lines = data_string.splitlines()
 
 """ Stores data in txt file and list"""
 spacecraftCatalog = []
-file = open("spacecraftCatalog.txt", "w")
+file = open("satCat.txt", "w")
 for line in data_lines:
 	file.write(line + "\n")
 	spacecraftCatalog.append(spacecraft(line))
