@@ -11,6 +11,8 @@ from PIL import Image, ImageTk, ImageOps
 
 
 import ButtonBar
+from spacecraft import spacecraft
+from multicolumnlistbox import MultiListbox
 
 class TaskerButtonBar(tk.Frame):
 	def __init__(self, master = None, size=32):
@@ -47,11 +49,24 @@ class TaskerButtonBar(tk.Frame):
 		pass
 
 	def addSatellite(self):
+		# Read in satellite catalog
+		data = []
+		with open("satCat.txt", "r") as file:
+			for line in file:
+				item = spacecraft(line)
+				data.append(item.intlDesignator)
+				data.append(item.catalogNumber)
+				data.append(item.name)
+				data.append(item.source)
+				data.append(item.launchDate)
+				data.append(item.launchSite)
+				data.append(item.decayDate)
+
 		popup = tk.Toplevel()
 		popup.title("Add satellites")
-		listbox = tk.Listbox(popup)
-
-		with open("satCat.txt") as file:
-			for line in file:
-				listbox.insert(tk.END, line)
+		# listbox = tk.Listbox(popup, width = 132, selectmode = tk.EXTENDED)
+		listbox = MultiListbox(popup, ["Intl Designator", "Catalog Number", "Name", "Source", "Launch Date", \
+										"Launch Site", "Decay Date"], height = 30)
+		listbox.add_data(data)
+		listbox.selectmode = tk.EXTENDED
 		listbox.pack()

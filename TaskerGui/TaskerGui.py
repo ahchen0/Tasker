@@ -10,6 +10,7 @@ from TaskerButtonBar import TaskerButtonBar
 from TaskerTreeView import TaskerTreeView
 from TaskerCanvas import TaskerCanvas
 from PythonConsole import PythonConsole
+from TaskerMap import TaskerMap, BrowserFrame, NavigationBar
         
 def stopProg(e):
     root.destroy()
@@ -46,14 +47,24 @@ class Application(tk.Frame):
         self.menubar.event_subscribe(self.treeview)
         self.buttonbar.event_subscribe(self.treeview)
 
+        """
         self.canvas = TaskerCanvas(self,500,500)
         self.event_subscribe(self.canvas)
         self.paned_window.bind("<Configure>",self.paned_window_resized)
+        """
+        # self.map = TaskerMap(self)
+        # self.event_subscribe(self.map)
+        # self.big_paned_window.add(self.map)
+        self.map = BrowserFrame(self)
+        self.paned_window.add(self.map)
+        self.paned_window.bind("<Configure>", self.paned_window_resized)
         
+        """
         self.paned_window.add(self.canvas)
         self.treeview.event_subscribe(self.canvas)
         self.buttonbar.event_subscribe(self.canvas)
         self.menubar.event_subscribe(self.canvas)
+        """
 
         self.python_console = PythonConsole(self)
         self.big_paned_window.add(self.python_console)

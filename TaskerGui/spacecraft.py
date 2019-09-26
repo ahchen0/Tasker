@@ -1,21 +1,24 @@
+# Class that contains information for a spacecraft
 class spacecraft:
-	intlDesignator = None
-	catalogNumber = None
-	multipleNameFlag = None
-	payloadFlag = None
-	operationalStatusCode = None # U = currently operational
-	name = None
-	source = None
-	launchDate = None
-	launchSite = None
-	decayDate = None
-	orbitalPeriod = None # minutes
-	inclination = None # degrees
-	apogee = None # km
-	perigee = None # km
-	radarCrossSection = None # m^2
-	orbitalStatusCode = None
+	intlDesignator = ""
+	catalogNumber = ""
+	multipleNameFlag = ""
+	payloadFlag = ""
+	operationalStatusCode = "" # U = currently operational
+	name = ""
+	source = ""
+	launchDate = ""
+	launchSite = ""
+	decayDate = ""
+	orbitalPeriod = "" # minutes
+	inclination = "" # degrees
+	apogee = "" # km
+	perigee = "" # km
+	radarCrossSection = "" # m^2
+	orbitalStatusCode = ""
 
+	# Constructor: Takes a line from the Celestrak txt database as argument
+	# (each line contains data for one spacecraft)
 	def __init__(self, line):
 		self.intlDesignator = line[0:11].strip()
 		self.catalogNumber = line[13:18].strip()
