@@ -210,7 +210,9 @@ class GeoStarTreeView(tk.Frame):
                         return
 
         def fileOpen(self,filename):
-                ## need to open the hdf5 file and determine structure.
+                import pdb
+                pdb.set_trace()
+               	## need to open the hdf5 file and determine structure.
                 self.openFiles.append(filename)
 
                 

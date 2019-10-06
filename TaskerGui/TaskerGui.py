@@ -11,6 +11,7 @@ from TaskerTreeView import TaskerTreeView
 from TaskerCanvas import TaskerCanvas
 from PythonConsole import PythonConsole
 from TaskerMap import TaskerMap, BrowserFrame, NavigationBar
+from satCatScraper import Scraper
         
 def stopProg(e):
     root.destroy()
@@ -18,6 +19,7 @@ def stopProg(e):
 
 class Application(tk.Frame):
     def __init__(self, master=None):
+        scraper = Scraper()
         super().__init__(master)
         self.master = master
         self.subscribers=[]
@@ -88,8 +90,10 @@ class Application(tk.Frame):
         """
         Called when paned window is resized
         """
-        ##print("app publishing window-resize event")
+        #print("app publishing window-resize event")
         self.event_publish(["TaskerApp::paned_window_resized",event])
+        self.map.on_mainframe_configure(event.width, event.height)
+
 
     
 ## MAIN:

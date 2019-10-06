@@ -149,7 +149,7 @@ class MainFrame(tk.Frame):
 
 class BrowserFrame(tk.Frame):
 
-    def __init__(self, master, navigation_bar=None):
+    def __init__(self, master, navigation_bar=None, width = 2000, height = 1000):
         if navigation_bar is None:
             logger.setLevel(_logging.INFO)
             stream_handler = _logging.StreamHandler()
@@ -174,7 +174,7 @@ class BrowserFrame(tk.Frame):
         self.navigation_bar = navigation_bar
         self.closing = False
         self.browser = None
-        tk.Frame.__init__(self, master)
+        tk.Frame.__init__(self, master, width = width, height = height)
         self.bind("<FocusIn>", self.on_focus_in)
         self.bind("<FocusOut>", self.on_focus_out)
         self.bind("<Configure>", self.on_configure)

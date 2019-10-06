@@ -25,6 +25,9 @@ def scroll_to_view(scroll_set, *view_funcs):
     return closure
 
 class MultiListbox(tk.Frame):
+
+    selectedRow = None
+
     def __init__(self, master=None, columns=2, data=[], row_select=True, **kwargs):
         '''makes a multicolumn listbox by combining a bunch of single listboxes
         with a single scrollbar
@@ -62,6 +65,7 @@ class MultiListbox(tk.Frame):
 
     def selected(self, event=None):
         row = event.widget.curselection()[0]
+        self.selectedRow = row
         for lbox in self.boxes:
             lbox.select_clear(0, tk.END)
             lbox.select_set(row)

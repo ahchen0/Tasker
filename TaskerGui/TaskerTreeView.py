@@ -12,6 +12,9 @@ from PIL import Image, ImageTk, ImageOps
 import MenuBar
 
 class TaskerTreeView(tk.Frame):
+
+        satList = []
+
         """
         Creates the Treeview for use in the Tasker GUI.
         """
@@ -201,50 +204,16 @@ class TaskerTreeView(tk.Frame):
         def event_receive(self,event):
                 if len(event) > 0:
                         type = event[0]
-                        if ( type == "TaskerMenuBar::fileOpen" or
-                                 type == "TaskerButtonBar::fileOpen" ):
+                        if ( type == "TaskerMenuBar::addSatellite" or
+                                 type == "TaskerButtonBar::addSatellite" ):
                            if len(event)>1:
                                    filename = event[1]
-                                   self.fileOpen(filename)
+                                   self.addSatellite(filename)
                 else:
                         return
 
-        def fileOpen(self,filename):
-                ## need to open the hdf5 file and determine structure.
-                self.openFiles.append(filename)
-
-                
-                wht_command={"name": self.raster_menu_select, "image":self.wht_square ,
-                             "text":"blank" ,"choice":"blank"}
-                gry_command={"name": self.raster_menu_select, "image":self.gry_square ,
-                             "text":"gray" ,"choice":"gray"}
-                red_command={"name": self.raster_menu_select, "image":self.red_square ,
-                             "text":"red" ,"choice":"red"}
-                grn_command={"name": self.raster_menu_select, "image":self.grn_square ,
-                             "text":"green" ,"choice":"green"}
-                blu_command={"name": self.raster_menu_select, "image":self.blu_square ,
-                             "text":"blue" ,"choice":"blue"}
-                pct_command={"name": self.raster_menu_select, "image":self.pct_square ,
-                             "text":"pct" ,"choice":"pct"}
-                raster_options={}
-                raster_options["type"]="raster"
-                ## menubuton defaults to image-only, even if text is supplied
-                raster_options["menubutton-options"] = {"anchor":"nw", "image":self.wht_square, "text":"blank", "padx":0, "pady":0}
-                raster_options["menu-options"] = {"tearoff": 0}
-                raster_options["menu-items"]   = [{"image":self.wht_square, "label":"don't display",
-                                    "compound": tk.LEFT, "command": wht_command},
-                                   {"image":self.gry_square, "label":"display as grayscale",
-                                    "compound": tk.LEFT, "command": gry_command},
-                                   {"image":self.red_square, "label":"display in red chnl",
-                                    "compound": tk.LEFT, "command": red_command},
-                                   {"image":self.grn_square, "label":"display in green chnl",
-                                    "compound": tk.LEFT, "command": grn_command},
-                                   {"image":self.blu_square, "label":"display in blue chnl",
-                                    "compound": tk.LEFT, "command": blu_command},
-                                   {"image":self.pct_square, "label":"display in pseudo-color",
-                                    "compound": tk.LEFT, "command": pct_command}
-                                   ]
-
+        def addSatellite(self, satellite):
+                self.satList.append(satellite)
                 file_options={}
                 file_options["menu-options"] =  {"tearoff": 0}
                 ## not sure why I have to do this, but its only invoking ONE method, thelast one specified,
@@ -253,41 +222,23 @@ class TaskerTreeView(tk.Frame):
                 #                                  {"label":"close", "command": self.fileMenu, "choice":"close"},
                 #                                ]
                 file_options["menu-items"] =  [ {"label":"close", "command": self.fileMenu, "choice":"close"}, ]
-
-                f = h5py.File(filename,'r')
-                if f.attrs['object_type'].decode('UTF-8') == "geostar::hdf5":
-                        #print("==== opening a HDF5 file. ====")
-                        #print("geostartreeview:: inserting at top level, filename="+filename)
-                        f_id = self.treeview.insert('','end',values=(["text",filename,file_options],), hidden="file")
-                        for item_name_h5, image in f.items():
-                                # debug: print(ch, image)
-                                if image.attrs['object_type'].decode('UTF-8') == 'geostar::image':
-                                        ## images
-                                        #print("geostartreeview:: inserting an image under f_id="+str(f_id))
-                                        image_id = self.treeview.insert(f_id,'end',
-                                                                        values=(["image",self.image_icon], ["text",item_name_h5],),
-                                                                        hidden="image")
-                                        self.ids.append(image_id)
-                                        for image_item_name_h5, raster in image.items():
-                                                if raster.attrs['object_type'].decode('UTF-8') == 'geostar::raster':
-                                                        ## rasters
-                                                        #print("geostartreeview:: inserting a raster under image_id="+str(image_id))
-                                                        raster_id = self.treeview.insert(image_id,'end',
-                                                                                         values=(["menu",raster_options],["text",image_item_name_h5],),
-                                                                                         hidden="raster" )
-
-                                                        self.ids.append(raster_id)
-                                                else:
-                                                        print("it's not a raster.")
-                                else:
-                                        print("it's not an image.")
-                else:
-                        print(f.attrs['object_type'].decode('UTF-8'))
-                        print("it's not a HDF5 file.")
-
-
-
-
+                f_id = self.treeview.insert('','end',values=(["text",satellite.name,file_options],), hidden="file")
+                self.treeview.insert(f_id, 'end', values =(["text", "Catalog Number: " + satellite.catalogNumber],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "International Designator: " + satellite.intlDesignator],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Epoch Year: " + satellite.epochYear],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Epoch Day: " + satellite.epochDay],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "First Derivative of Mean Motion: " + satellite.firstDerivativeOfMeanMotion],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Second Derivative of Mean Motion: " + satellite.secondDerivativeOfMeanMotion],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Drag Term: " + satellite.dragTerm],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Ephemeris Type: " + satellite.ephemerisType],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Element Set Number: " + satellite.elementSetNumber],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Inclination: " + satellite.inclination],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Right Ascension of Ascending Node: " + satellite.raan],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Eccentricity: " + satellite.eccentricity],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Argument of Perigee: " + satellite.argumentOfPerigee],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Mean Anomaly: " + satellite.meanAnomaly],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Mean Motion: " + satellite.meanMotion],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Revolution Number at Epoch: " + satellite.revolutionNumberAtEpoch],), hidden = "image")
 
         ########################################################################
         def fileMenu(self,  choice=None, iid=None):
