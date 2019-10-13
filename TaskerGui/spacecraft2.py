@@ -20,7 +20,7 @@ class spacecraft:
 		# Line 2
 		self.inclination = line2[8:16]
 		self.raan = line2[17:25]
-		self.eccentricity = line2[26:33]
+		self.eccentricity = "0." + line2[26:33]
 		self.argumentOfPerigee = line2[34:42]
 		self.meanAnomaly = line2[43:51]
 		self.meanMotion = line2[52:63]
