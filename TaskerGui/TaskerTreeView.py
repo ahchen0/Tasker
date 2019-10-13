@@ -223,22 +223,22 @@ class TaskerTreeView(tk.Frame):
                 #                                ]
                 file_options["menu-items"] =  [ {"label":"close", "command": self.fileMenu, "choice":"close"}, ]
                 f_id = self.treeview.insert('','end',values=(["text",satellite.name,file_options],), hidden="file")
-                self.treeview.insert(f_id, 'end', values =(["text", "Catalog Number: " + satellite.catalogNumber],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "International Designator: " + satellite.intlDesignator],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Catalog Num: " + satellite.catalogNumber],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Intl Designator: " + satellite.intlDesignator],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Epoch Year: " + satellite.epochYear],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Epoch Day: " + satellite.epochDay],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "First Derivative of Mean Motion: " + satellite.firstDerivativeOfMeanMotion],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "Second Derivative of Mean Motion: " + satellite.secondDerivativeOfMeanMotion],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "1st Deriv Mean Motion: " + satellite.firstDerivativeOfMeanMotion],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "2nd Deriv Mean Motion: " + satellite.secondDerivativeOfMeanMotion],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Drag Term: " + satellite.dragTerm],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Ephemeris Type: " + satellite.ephemerisType],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Element Set Number: " + satellite.elementSetNumber],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Inclination: " + satellite.inclination],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "Right Ascension of the Ascending Node: " + satellite.raan],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "R.A.A.N.: " + satellite.raan],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Eccentricity: 0." + satellite.eccentricity],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "Argument of Perigee: " + satellite.argumentOfPerigee],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Arg of Perigee: " + satellite.argumentOfPerigee],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Mean Anomaly: " + satellite.meanAnomaly],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Mean Motion: " + satellite.meanMotion],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "Revolution Number at Epoch: " + satellite.revolutionNumberAtEpoch],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Rev Num at Epoch: " + satellite.revolutionNumberAtEpoch],), hidden = "image")
 
         ########################################################################
         def fileMenu(self,  choice=None, iid=None):

@@ -37,50 +37,36 @@ class Application(tk.Frame):
         self.buttonbar = TaskerButtonBar(self,size=28)
         self.buttonbar.pack(side="top",fill=tk.X,expand=False)
 
-        # self.big_paned_window = tk.PanedWindow(self,orient="vertical",showhandle=True,sashrelief=tk.RAISED)
-        # self.big_paned_window.pack(side="top",fill=tk.BOTH,expand=True)
+        self.big_paned_window = tk.PanedWindow(self,orient="vertical",showhandle=True,sashrelief=tk.RAISED)
+        self.big_paned_window.pack(side="top",fill=tk.BOTH,expand=True)
 
 
-        # self.paned_window = tk.PanedWindow(self,orient="horizontal",showhandle=True,sashrelief=tk.RAISED)
-        # self.big_paned_window.add(self.paned_window)
-        # self.paned_window.pack(side="top", fill=tk.BOTH, expand=True)
+        self.paned_window = tk.PanedWindow(self,orient="horizontal",showhandle=True,sashrelief=tk.RAISED)
+        self.big_paned_window.add(self.paned_window)
         
         self.treeview = TaskerTreeView(self,font_size=12)
-        self.treeview.pack(side="left", fill=tk.Y, expand=False)
-        # self.paned_window.add(self.treeview)
+        self.paned_window.add(self.treeview)
         self.menubar.event_subscribe(self.treeview)
         self.buttonbar.event_subscribe(self.treeview)
 
         self.canvas = TaskerCanvas(self,500,500)
-        self.canvas.pack(side="left", fill=tk.BOTH, expand=True)
         self.event_subscribe(self.canvas)
-        # self.paned_window.add(self.canvas)
-        # self.paned_window.bind("<Configure>",self.paned_window_resized)
-
+        self.paned_window.bind("<Configure>",self.paned_window_resized)
         """
         self.map = BrowserFrame(self)
         self.paned_window.add(self.map)
         self.paned_window.bind("<Configure>", self.paned_window_resized)
         """
-        # self.paned_window.add(self.canvas)
+
+        self.paned_window.add(self.canvas)
         self.treeview.event_subscribe(self.canvas)
         self.buttonbar.event_subscribe(self.canvas)
         self.menubar.event_subscribe(self.canvas)
 
-        """
-        self.paned_window = tk.PanedWindow(self, orient="horizontal",
-                                           showhandle=True, sashrelief=tk.RAISED)
-        self.paned_window.add(self.treeview)
-        self.paned_window.add(self.canvas)
-        self.paned_window.bind("<Configure>", self.paned_window_resized)
-        self.paned_window.pack(side="top", fill=tk.BOTH, expand=True)
-        """
 
-        """
         self.python_console = PythonConsole(self)
-        self.big_paned_window.add(self.paned_window)
         self.big_paned_window.add(self.python_console)
-        """
+        
 
     def event_subscribe(self, obj_ref):
         self.subscribers.append(obj_ref)

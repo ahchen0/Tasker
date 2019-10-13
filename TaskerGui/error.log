@@ -436,3 +436,17 @@ AttributeError: 'Application' object has no attribute 'navigation_bar'
     self.paned_window.bind("<Configure>", self.paned_window.resized)
 AttributeError: 'PanedWindow' object has no attribute 'resized'
 
+
+[2019-10-13 14:12:19] Traceback (most recent call last):
+  File "TaskerGui.py", line 103, in <module>
+    App=Application(master=root)
+  File "TaskerGui.py", line 29, in __init__
+    self.create_widgets()
+  File "TaskerGui.py", line 73, in create_widgets
+    pdb.set_trace()
+  File "/usr/lib/python3.6/bdb.py", line 55, in trace_dispatch
+    return self.dispatch_return(frame, arg)
+  File "/usr/lib/python3.6/bdb.py", line 99, in dispatch_return
+    if self.quitting: raise BdbQuit
+bdb.BdbQuit
+

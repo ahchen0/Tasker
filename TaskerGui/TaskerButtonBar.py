@@ -104,7 +104,10 @@ class TaskerButtonBar(tk.Frame):
 
     def addSatelliteToTree(self):
         if self.listbox.selectedRow is not None:
-        	self.event_publish(["TaskerButtonBar::addSatellite", self.catalog[self.listbox.selectedRow]])
+            import pdb
+            pdb.set_trace()
+            self.event_publish(["TaskerButtonBar::addSatellite", self.catalog[self.listbox.selectedRow]])
+            self.master.canvas.plotter.plot(satName = self.catalog[self.listbox.selectedRow].name)
         else:
             print("Couldn't add spacecraft. No spacecraft selected")
 
