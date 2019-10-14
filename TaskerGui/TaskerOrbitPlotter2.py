@@ -39,7 +39,7 @@ class TaskerOrbitPlotter:
         """
         
         im = pyplot.imread("map2.jpg")
-        implot = pyplot.imshow(im, origin = "upper", extent = [-180, 180, -90,
+        pyplot.imshow(im, origin = "upper", extent = [-180, 180, -90,
         90])
 
         """
@@ -94,7 +94,7 @@ class TaskerOrbitPlotter:
         y.append(latitudes[0])
         while i < len(longitudes):
             if abs(longitudes[i-1] - longitudes[i]) > 300:
-                pyplot.plot(x, y, color = 'y')
+                pyplot.plot(x, y, color = 'y', linewidth = 4)
                 x = []
                 y = []
             else:
@@ -102,7 +102,10 @@ class TaskerOrbitPlotter:
                 y.append(latitudes[i])
             i = i + 1
                 
-        pyplot.plot(x, y, color = 'y')
+        pyplot.plot(x, y, color = 'y', linewidth = 4)
+        pyplot.scatter(longitudes[0], latitudes[0], s = 400, color = 'y')
+        import pdb
+        pdb.set_trace()
         # pyplot.plot(longitudes, latitudes, color = 'y')
         # pyplot.show()
 
