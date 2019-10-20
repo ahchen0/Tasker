@@ -12,6 +12,8 @@ from TaskerCanvas import TaskerCanvas
 from PythonConsole import PythonConsole
 from TaskerMap import TaskerMap, BrowserFrame, NavigationBar
 from satCatScraper import Scraper
+from TaskerStatusBar import TaskerStatusBar
+from datetime import datetime
         
 def stopProg(e):
     root.destroy()
@@ -56,6 +58,11 @@ class Application(tk.Frame):
         self.event_subscribe(self.canvas)
         # self.paned_window.add(self.canvas)
         # self.paned_window.bind("<Configure>",self.paned_window_resized)
+
+        self.time = datetime.now()
+        self.statusbar = TaskerStatusBar(self)
+        self.statusbar.pack(side="bottom", fill=tk.X, expand = False)
+        self.event_subscribe(self.statusbar)
 
         """
         self.map = BrowserFrame(self)

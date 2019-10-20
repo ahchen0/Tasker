@@ -61,9 +61,9 @@ class TaskerCanvas(ttk.Frame):
                                 xscrollcommand=hbar.set, yscrollcommand=vbar.set)
         """
 
-        self.plotter = TaskerOrbitPlotter()
+        self.plotter = TaskerOrbitPlotter(self)
         # fig = Figure(figsize=(5, 4), dpi=100)
-        fig = self.plotter.show(datetime.now(), datetime.now() + timedelta(seconds = 5400))
+        fig = self.plotter.show()
         t = np.arange(0, 3, .01)
         # fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
         self.canvas = FigureCanvasTkAgg(fig, master = mainframe)

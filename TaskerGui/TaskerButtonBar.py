@@ -8,7 +8,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from Tooltip import Tooltip
 from PIL import Image, ImageTk, ImageOps
-
+from datetime import datetime
 
 import ButtonBar
 from spacecraft2 import spacecraft
@@ -38,6 +38,13 @@ class TaskerButtonBar(tk.Frame):
         i1=self.buttonbar.add_icon(self.exit_img,self.master.master.destroy)
         Tooltip(i1, text='Exit', wraplength=wraplength)
 
+        #Set time
+        i1 = Image.open("icon/clock.png")
+        i2 = ImageOps.fit(i1,(int(self.size),int(self.size)))
+        self.set_time_img = ImageTk.PhotoImage(i2, master=self)
+        i1 = self.buttonbar.add_icon(self.set_time_img, self.setTime)
+        Tooltip(i1, text="Set time", wraplength=wraplength)
+
     def event_subscribe(self, obj_ref):
         self.subscribers.append(obj_ref)
 
@@ -49,31 +56,66 @@ class TaskerButtonBar(tk.Frame):
         pass
 
 
-    """
-    def addSatellite(self):
-        # Read in satellite catalog
-        data = []
-        with open("satCat.txt", "r") as file:
-            for line in file:
-                item = spacecraft(line)
-                data.append(item.intlDesignator)
-                data.append(item.catalogNumber)
-                data.append(item.name)
-                data.append(item.source)
-                data.append(item.launchDate)
-                data.append(item.launchSite)
-                data.append(item.decayDate)
-
+    def setTime(self):
         popup = tk.Toplevel()
-        popup.title("Add satellites")
-        # listbox = tk.Listbox(popup, width = 132, selectmode = tk.EXTENDED)
-        listbox = MultiListbox(popup, ["Intl Designator", "Catalog Number", "Name", "Source", "Launch Date", \
-                                        "Launch Site", "Decay Date"], height = 30)
-        listbox.add_data(data)
-        listbox.selectmode = tk.EXTENDED
-        listbox.pack()
-    """
+        popup.title("Set Time")
 
+        yearDir = tk.Label(popup, text = "Year:")
+        yearDir.pack()
+        self.year = tk.Entry(popup, width = 15, justify = "center", text = "Year")
+        self.year.delete(0, tk.END)
+        self.year.insert(tk.END, str(self.master.time.year))
+        self.year.pack()
+
+        monthDir = tk.Label(popup, text = "\nMonth:")
+        monthDir.pack()
+        self.month = tk.Entry(popup, width = 15, justify = "center", text = "Month")
+        self.month.delete(0, tk.END)
+        self.month.insert(tk.END, str(self.master.time.month))
+        self.month.pack()
+
+        dayDir = tk.Label(popup, text = "\nDay:")
+        dayDir.pack()
+        self.day = tk.Entry(popup, width = 15, justify = "center", text = "Day")
+        self.day.delete(0, tk.END)
+        self.day.insert(tk.END, str(self.master.time.day))
+        self.day.pack()
+
+        hourDir = tk.Label(popup, text = "\nHour:")
+        hourDir.pack()
+        self.hour = tk.Entry(popup, width = 15, justify = "center", text = "Hour")
+        self.hour.delete(0, tk.END)
+        self.hour.insert(tk.END, str(self.master.time.hour))
+        self.hour.pack()
+
+        minuteDir = tk.Label(popup, text = "\nMinute:")
+        minuteDir.pack()
+        self.minute = tk.Entry(popup, width = 15, justify = "center", text = "Minute")
+        self.minute.delete(0, tk.END)
+        self.minute.insert(tk.END, str(self.master.time.minute))
+        self.minute.pack()
+
+        secondDir = tk.Label(popup, text = "\nSecond:")
+        secondDir.pack()
+        self.second = tk.Entry(popup, width = 15, justify = "center", text = "Second")
+        self.second.delete(0, tk.END)
+        self.second.insert(tk.END, str(self.master.time.second))
+        self.second.pack()
+
+        setButton = tk.Button(popup, text = "Set", command = self.updateTime)
+        setButton.pack()
+
+    def updateTime(self):
+        year = int(self.year.get())
+        month = int(self.month.get())
+        day = int(self.day.get())
+        hour = int(self.hour.get())
+        minute = int(self.minute.get())
+        second = int(self.second.get())
+        self.master.time = datetime(year, month, day, hour, minute, second)
+        self.master.canvas.plotter.updateAll()
+
+    
     def addSatellite(self):
         # Read in satellite catalog
         data = []
@@ -105,7 +147,7 @@ class TaskerButtonBar(tk.Frame):
     def addSatelliteToTree(self):
         if self.listbox.selectedRow is not None:
             self.event_publish(["TaskerButtonBar::addSatellite", self.catalog[self.listbox.selectedRow]])
-            self.master.canvas.plotter.plot(satName = self.catalog[self.listbox.selectedRow].name)
+            self.master.canvas.plotter.plot(sat = self.catalog[self.listbox.selectedRow])
         else:
             print("Couldn't add spacecraft. No spacecraft selected")
 
