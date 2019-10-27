@@ -47,7 +47,7 @@ class Application(tk.Frame):
         # self.big_paned_window.add(self.paned_window)
         # self.paned_window.pack(side="top", fill=tk.BOTH, expand=True)
         
-        self.treeview = TaskerTreeView(self,font_size=12)
+        self.treeview = TaskerTreeView(self,font_size=12, width=300)
         self.treeview.pack(side="left", fill=tk.Y, expand=False)
         # self.paned_window.add(self.treeview)
         self.menubar.event_subscribe(self.treeview)

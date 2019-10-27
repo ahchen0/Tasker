@@ -252,6 +252,12 @@ class TaskerTreeView(tk.Frame):
                         self.treeview.delete_item(iid)
                         self.event_publish(["TaskerTreeView::fileClose",file_name])
                         print("event published:"+"TaskerTreeView::fileClose, filename="+file_name)
+
+                        # Remove satellite from satList
+                        for sat in self.satList:
+                                if sat.name == file_name:
+                                        self.satList.remove(sat)
+                        self.master.canvas.plotter.updateAll()
                 
         ########################################################################
         def raster_menu_select(self, selfmb=None, iid=None, image=None, choice=None):
