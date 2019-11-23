@@ -8,12 +8,15 @@ import matplotlib.pyplot as plt
 from tkinter import PhotoImage
 from TreeViewPlus import TreeViewPlus
 from PIL import Image, ImageTk, ImageOps
+from TaskerPoint import Point
 
 import MenuBar
 
 class TaskerTreeView(tk.Frame):
 
         satList = []
+        pointList = []
+        masterList = []
 
         """
         Creates the Treeview for use in the Tasker GUI.
@@ -214,6 +217,7 @@ class TaskerTreeView(tk.Frame):
 
         def addSatellite(self, satellite):
                 self.satList.append(satellite)
+                self.masterList.append(satellite)
                 file_options={}
                 file_options["menu-options"] =  {"tearoff": 0}
                 ## not sure why I have to do this, but its only invoking ONE method, thelast one specified,
@@ -239,6 +243,16 @@ class TaskerTreeView(tk.Frame):
                 self.treeview.insert(f_id, 'end', values =(["text", "Mean Anomaly: " + satellite.meanAnomaly],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Mean Motion: " + satellite.meanMotion],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Rev Num at Epoch: " + satellite.revolutionNumberAtEpoch],), hidden = "image")
+
+        def addPoint(self, point):
+                self.masterList.append(point)
+                self.pointList.append(point)
+                file_options={}
+                file_options["menu-options"] =  {"tearoff": 0}
+                file_options["menu-items"] =  [ {"label":"close", "command": self.fileMenu, "choice":"close"}, ]
+                f_id = self.treeview.insert('','end',values=(["text",point.name,file_options],), hidden="file")
+                self.treeview.insert(f_id, 'end', values =(["text", "Latitude: " + point.lat],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Longitude: " + point.lon],), hidden = "image")
 
         ########################################################################
         def fileMenu(self,  choice=None, iid=None):

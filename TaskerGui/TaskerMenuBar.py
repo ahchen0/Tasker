@@ -14,6 +14,8 @@ import webbrowser
 from PIL import ImageTk, Image, ImageDraw
 import PIL
 from datetime import datetime, timedelta
+from spacecraft2 import spacecraft
+from multicolumnlistbox import MultiListbox
 
 import MenuBar
 
@@ -28,7 +30,7 @@ class TaskerMenuBar(tk.Frame):
         self.menubar = MenuBar.MenuBar(self)
         self.master.master.config(menu=self.menubar.menubar)
 
-        file_menu = ["File", "Quit", self.master.master.destroy]
+        file_menu = ["File", "Add Satellite", self.addSatellite, "Add Point", self.addPoint, "Quit", self.master.master.destroy]
         self.menubar.file=self.menubar.add_item(file_menu)
 
         edit_menu = ["Tools", "Scheduler", self.scheduler]
@@ -36,6 +38,71 @@ class TaskerMenuBar(tk.Frame):
 
         help_menu = ["Help", "Version", self.helpVersion, "Documentation", self.helpDocumentation]
         self.menubar.edit=self.menubar.add_item(help_menu)
+
+    def addSatellite(self):
+        # Read in satellite catalog
+        data = []
+        self.catalog = []
+        file = open("satCat.txt", "r")
+        lines = file.readlines()
+        lineNum = 0
+        while(lineNum < len(lines)):
+            name = lines[lineNum]
+            line1 = lines[lineNum + 1]
+            line2 = lines[lineNum + 2]
+            lineNum = lineNum + 3
+            item = spacecraft(name, line1, line2)
+            self.catalog.append(item)
+            data.append(item.name)
+            data.append(item.catalogNumber)
+            data.append(item.intlDesignator)
+ 
+        popup = tk.Toplevel()
+        popup.title("Add satellites")
+        self.listbox = MultiListbox(popup, ["Name", "Catalog Number", "Intl Designator"], height = 30)
+        self.listbox.add_data(data)
+        self.listbox.selectmode = tk.EXTENDED
+        self.listbox.pack(fill = tk.BOTH, expand = 1)
+
+        addButton = tk.Button(popup, text = "Add", command = self.addSatelliteToTree)
+        addButton.pack()
+
+    def addSatelliteToTree(self):
+        if self.listbox.selectedRow is not None:
+            self.event_publish(["TaskerButtonBar::addSatellite", self.catalog[self.listbox.selectedRow]])
+            self.master.canvas.plotter.plot(sat = self.catalog[self.listbox.selectedRow])
+        else:
+            print("Couldn't add spacecraft. No spacecraft selected")
+
+    # Popup for adding points to the map
+    def addPoint(self):
+        popup = tk.Toplevel()
+        popup.title("Add Point")
+
+        pointNameDir = tk.Label(popup, text = "Enter Name")
+        pointNameDir.pack()
+        pointStartName = "Point " + str(len(self.master.treeview.pointList) + 1)
+        self.pointName = tk.Entry(popup, width = 20, justify = "center", text = pointStartName)
+        self.pointName.delete(0, tk.END)
+        self.pointName.insert(tk.END, pointStartName)
+        self.pointName.pack()
+
+        latDir = tk.Label(popup, text = "Enter Latitude")
+        latDir.pack()
+        self.lat = tk.Entry(popup, width = 20, justify = "center", text = "0")
+        self.lat.delete(0, tk.END)
+        self.lat.insert(tk.END, "0")
+        self.lat.pack()
+
+        lonDir = tk.Label(popup, text = "Enter Longitude")
+        lonDir.pack()
+        self.lon = tk.Entry(popup, width = 20, justify = "center", text = "0")
+        self.lon.delete(0, tk.END)
+        self.lon.insert(tk.END, "0")
+        self.lon.pack()
+
+    def addPointToTree(self):
+        pass # START HERE
 
 
     def event_subscribe(self, obj_ref):

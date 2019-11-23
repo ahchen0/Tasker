@@ -23,13 +23,28 @@ class TaskerButtonBar(tk.Frame):
         self.buttonbar = ButtonBar.ButtonBar(self)
         wraplength=200
 
-        #Buttons start here
-        #Create new file, not implemented, doing the same thing as open file
-        i1 = Image.open("icon/add-file.png")
+        #Set time
+        i1 = Image.open("icon/clock.png")
         i2 = ImageOps.fit(i1,(int(self.size),int(self.size)))
-        self.add_img = ImageTk.PhotoImage(i2, master=self)
-        i1 = self.buttonbar.add_icon(self.add_img,self.addSatellite)
-        Tooltip(i1, text='Create a new file', wraplength=wraplength)
+        self.set_time_img = ImageTk.PhotoImage(i2, master=self)
+        i1 = self.buttonbar.add_icon(self.set_time_img, self.setTime)
+        Tooltip(i1, text="Set time", wraplength=wraplength)
+
+        #Zoom in
+        i1 = Image.open("icon/zoom-in.png")
+        i2 = ImageOps.fit(i1,(int(self.size),int(self.size)))
+        self.zoom_in_img = ImageTk.PhotoImage(i2, master=self)
+        i1 = self.buttonbar.add_icon(self.zoom_in_img, self.zoomIn)
+        Tooltip(i1, text="Zoom in", wraplength=wraplength)
+        self.zoomInEnabled = False
+
+        #Zoom out
+        i1 = Image.open("icon/zoom-out.png")
+        i2 = ImageOps.fit(i1,(int(self.size),int(self.size)))
+        self.zoom_out_img = ImageTk.PhotoImage(i2, master=self)
+        i1 = self.buttonbar.add_icon(self.zoom_out_img, self.zoomOut)
+        Tooltip(i1, text="Zoom out", wraplength=wraplength)
+        self.zoomOutEnabled = False
 
         #Exit
         i1 = Image.open("icon/error.png")
@@ -37,13 +52,6 @@ class TaskerButtonBar(tk.Frame):
         self.exit_img = ImageTk.PhotoImage(i2, master=self)
         i1=self.buttonbar.add_icon(self.exit_img,self.master.master.destroy)
         Tooltip(i1, text='Exit', wraplength=wraplength)
-
-        #Set time
-        i1 = Image.open("icon/clock.png")
-        i2 = ImageOps.fit(i1,(int(self.size),int(self.size)))
-        self.set_time_img = ImageTk.PhotoImage(i2, master=self)
-        i1 = self.buttonbar.add_icon(self.set_time_img, self.setTime)
-        Tooltip(i1, text="Set time", wraplength=wraplength)
 
     def event_subscribe(self, obj_ref):
         self.subscribers.append(obj_ref)
@@ -55,6 +63,27 @@ class TaskerButtonBar(tk.Frame):
     def event_receive(self,event):
         pass
 
+    def zoomIn(self):
+        if not self.zoomInEnabled:
+            if(self.zoomOutEnabled):
+                self.master.canvas.disableZoomOut()
+                self.zoomOutEnabled = False
+            self.master.canvas.enableZoomIn()
+            self.zoomInEnabled = True
+        else:
+            self.master.canvas.disableZoomIn()
+            self.zoomInEnabled = False
+
+    def zoomOut(self):
+        if not self.zoomOutEnabled:
+            if(self.zoomInEnabled):
+                self.master.canvas.disableZoomIn()
+                self.zoomInEnabled = False
+            self.master.canvas.enableZoomOut()
+            self.zoomOutEnabled = True
+        else:
+            self.master.canvas.disableZoomOut()
+            self.zoomOutEnabled = False
 
     def setTime(self):
         popup = tk.Toplevel()
@@ -114,40 +143,4 @@ class TaskerButtonBar(tk.Frame):
         second = int(self.second.get())
         self.master.time = datetime(year, month, day, hour, minute, second)
         self.master.canvas.plotter.updateAll()
-
-    
-    def addSatellite(self):
-        # Read in satellite catalog
-        data = []
-        self.catalog = []
-        file = open("satCat.txt", "r")
-        lines = file.readlines()
-        lineNum = 0
-        while(lineNum < len(lines)):
-            name = lines[lineNum]
-            line1 = lines[lineNum + 1]
-            line2 = lines[lineNum + 2]
-            lineNum = lineNum + 3
-            item = spacecraft(name, line1, line2)
-            self.catalog.append(item)
-            data.append(item.name)
-            data.append(item.catalogNumber)
-            data.append(item.intlDesignator)
- 
-        popup = tk.Toplevel()
-        popup.title("Add satellites")
-        self.listbox = MultiListbox(popup, ["Name", "Catalog Number", "Intl Designator"], height = 30)
-        self.listbox.add_data(data)
-        self.listbox.selectmode = tk.EXTENDED
-        self.listbox.pack(fill = tk.BOTH, expand = 1)
-
-        addButton = tk.Button(popup, text = "Add", command = self.addSatelliteToTree)
-        addButton.pack()
-
-    def addSatelliteToTree(self):
-        if self.listbox.selectedRow is not None:
-            self.event_publish(["TaskerButtonBar::addSatellite", self.catalog[self.listbox.selectedRow]])
-            self.master.canvas.plotter.plot(sat = self.catalog[self.listbox.selectedRow])
-        else:
-            print("Couldn't add spacecraft. No spacecraft selected")
 

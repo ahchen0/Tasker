@@ -13,7 +13,7 @@ from PythonConsole import PythonConsole
 from TaskerMap import TaskerMap, BrowserFrame, NavigationBar
 from satCatScraper import Scraper
 from TaskerStatusBar import TaskerStatusBar
-from datetime import datetime
+from datetime import datetime, timezone
         
 def stopProg(e):
     root.destroy()

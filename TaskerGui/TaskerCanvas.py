@@ -22,6 +22,7 @@ from matplotlib.backends.backend_tkagg import (
 # Implement the default Matplotlib key bindings.
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
+import matplotlib.backends.backend_tkagg as tkagg
 
 import numpy as np
 
@@ -68,6 +69,9 @@ class TaskerCanvas(ttk.Frame):
         # fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
         self.canvas = FigureCanvasTkAgg(fig, master = mainframe)
         self.canvas.draw()
+        #self.canvas.config(cursor="target")
+        # tkagg.cursord[cursors.POINTER] = 'coffee_mug' 
+        #self.plotter.axis.set_yscale('mercator')
 
 
         # hbar.pack(side="bottom",fill=tk.X,expand=True)
@@ -101,6 +105,37 @@ class TaskerCanvas(ttk.Frame):
         # self.init_rgb()
 
         # self.canvas.get_tk_widget().after(1000, lambda: self.parent.bind("<Configure>", self.on_resize_parent) )
+
+    def enableZoomIn(self):
+        self.zoomInID = self.canvas.mpl_connect('button_press_event', self.onZoomIn)
+        self.master.config(cursor = "cross")
+
+    def disableZoomIn(self):
+        self.canvas.mpl_disconnect(self.zoomInID)
+        self.master.config(cursor = "arrow")
+
+    def enableZoomOut(self):
+        self.zoomOutID = self.canvas.mpl_connect('button_press_event', self.onZoomOut)
+        self.master.config(cursor = "cross")
+
+    def disableZoomOut(self):
+        self.canvas.mpl_disconnect(self.zoomOutID)
+        self.master.config(cursor = "arrow")
+
+    """ Called when the map is clicked. Zooms in on the quadrant clicked on """
+    def onZoomIn(self, event):
+        try:
+            print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
+                ('double' if event.dblclick else 'single', event.button,
+                event.x, event.y, event.xdata, event.ydata))
+        except:
+            return
+
+
+        self.plotter.zoomIn(event)
+
+    def onZoomOut(self, event):
+        self.plotter.zoomOut(event)
 
     def init_pct(self):
         """
