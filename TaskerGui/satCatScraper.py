@@ -7,7 +7,6 @@ import bs4
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 from collections import OrderedDict
-from spacecraft import spacecraft
 
 class Scraper:
 
