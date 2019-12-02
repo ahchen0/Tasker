@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>multicolumnlistbox module &#8212; TaskerGui 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-multicolumnlistbox">
+<span id="multicolumnlistbox-module"></span><h1>multicolumnlistbox module<a class="headerlink" href="#module-multicolumnlistbox" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="multicolumnlistbox.GUI">
+<em class="property">class </em><code class="sig-prename descclassname">multicolumnlistbox.</code><code class="sig-name descname">GUI</code><span class="sig-paren">(</span><em class="sig-param">master=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.GUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Frame</span></code></p>
+<p>an example gui</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="multicolumnlistbox.MultiListbox">
+<em class="property">class </em><code class="sig-prename descclassname">multicolumnlistbox.</code><code class="sig-name descname">MultiListbox</code><span class="sig-paren">(</span><em class="sig-param">master=None</em>, <em class="sig-param">columns=2</em>, <em class="sig-param">data=[]</em>, <em class="sig-param">row_select=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.MultiListbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Frame</span></code></p>
+<dl class="method">
+<dt id="multicolumnlistbox.MultiListbox.add_data">
+<code class="sig-name descname">add_data</code><span class="sig-paren">(</span><em class="sig-param">data=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.MultiListbox.add_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes a 1D list of data and adds it row-wise
+If there is not enough data to fill the row, then the row is
+filled with empty strings
+these will not be back filled; every new call starts at column 0</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="multicolumnlistbox.MultiListbox.curselection">
+<code class="sig-name descname">curselection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.MultiListbox.curselection" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the currently selected row</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="multicolumnlistbox.MultiListbox.selected">
+<code class="sig-name descname">selected</code><span class="sig-paren">(</span><em class="sig-param">event=None</em><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.MultiListbox.selected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="multicolumnlistbox.MultiListbox.selectedRow">
+<code class="sig-name descname">selectedRow</code><em class="property"> = None</em><a class="headerlink" href="#multicolumnlistbox.MultiListbox.selectedRow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="multicolumnlistbox.main">
+<code class="sig-prename descclassname">multicolumnlistbox.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="multicolumnlistbox.multiple">
+<code class="sig-prename descclassname">multicolumnlistbox.</code><code class="sig-name descname">multiple</code><span class="sig-paren">(</span><em class="sig-param">*func_list</em><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.multiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>run multiple functions as one</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="multicolumnlistbox.scroll_to_view">
+<code class="sig-prename descclassname">multicolumnlistbox.</code><code class="sig-name descname">scroll_to_view</code><span class="sig-paren">(</span><em class="sig-param">scroll_set</em>, <em class="sig-param">*view_funcs</em><span class="sig-paren">)</span><a class="headerlink" href="#multicolumnlistbox.scroll_to_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows one widget to control the scroll bar and other widgets
+scroll set: the scrollbar set function
+view_funcs: other widget’s view functions</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TaskerGui</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alex Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/multicolumnlistbox.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

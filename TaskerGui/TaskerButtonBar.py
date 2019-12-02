@@ -15,6 +15,16 @@ from spacecraft2 import spacecraft
 from multicolumnlistbox import MultiListbox
 
 class TaskerButtonBar(tk.Frame):
+    """
+    Creates the buttonbar for use in the Tasker GUI.
+    Builds each of the button items, and attaches functions to each.
+
+    :ivar Application master: Parent application of the menu bar
+    :ivar subscribers: List of subscribers
+    :ivar ButtonBar buttonbar: The tkinter buttonbar
+    :param Application master: The parent application of the button bar
+    :param int size: The size of the button bar
+    """
     def __init__(self, master = None, size=32):
         tk.Frame.__init__(self, master)
         self.master = master
@@ -54,16 +64,36 @@ class TaskerButtonBar(tk.Frame):
         Tooltip(i1, text='Exit', wraplength=wraplength)
 
     def event_subscribe(self, obj_ref):
+        """
+        Subscribes obj_ref to the TaskerGui.
+
+        :param obj_ref: object to be subscribed to TaskerGui
+        """
         self.subscribers.append(obj_ref)
 
     def event_publish(self, cmd):
+        """
+        Publishes an event to all subscribers
+
+        :param str cmd: Command to be published
+        """
+
         for sub in self.subscribers:
             sub.event_receive(cmd)
 
     def event_receive(self,event):
+        """
+        Receives an event from a subscription
+
+        :param event: The event received from a subscription
+        """
+
         pass
 
     def zoomIn(self):
+        """
+        Called when the zoomIn button is clicked
+        """
         if not self.zoomInEnabled:
             if(self.zoomOutEnabled):
                 self.master.canvas.disableZoomOut()
@@ -75,6 +105,9 @@ class TaskerButtonBar(tk.Frame):
             self.zoomInEnabled = False
 
     def zoomOut(self):
+        """
+        Called when the zoomOut button is clicked
+        """
         if not self.zoomOutEnabled:
             if(self.zoomInEnabled):
                 self.master.canvas.disableZoomIn()
@@ -86,6 +119,9 @@ class TaskerButtonBar(tk.Frame):
             self.zoomOutEnabled = False
 
     def setTime(self):
+        """
+        Creates the setTime popup
+        """
         popup = tk.Toplevel()
         popup.title("Set Time")
 
@@ -135,6 +171,9 @@ class TaskerButtonBar(tk.Frame):
         setButton.pack()
 
     def updateTime(self):
+        """
+        Changes the currently plotted time to the time selected by the user in the setTime popup
+        """
         year = int(self.year.get())
         month = int(self.month.get())
         day = int(self.day.get())

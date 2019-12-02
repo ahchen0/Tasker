@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>TaskerTreeView module &#8212; TaskerGui 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-TaskerTreeView">
+<span id="taskertreeview-module"></span><h1>TaskerTreeView module<a class="headerlink" href="#module-TaskerTreeView" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="TaskerTreeView.TaskerTreeView">
+<em class="property">class </em><code class="sig-prename descclassname">TaskerTreeView.</code><code class="sig-name descname">TaskerTreeView</code><span class="sig-paren">(</span><em class="sig-param">master</em>, <em class="sig-param">width=500</em>, <em class="sig-param">height=500</em>, <em class="sig-param">font_name='Times'</em>, <em class="sig-param">font_size=12</em>, <em class="sig-param">font_color='black'</em>, <em class="sig-param">indicator_foreground='black'</em>, <em class="sig-param">background='white'</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Frame</span></code></p>
+<p>Creates the Treeview for use in the Tasker GUI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#TaskerTreeView.TaskerTreeView.satList" title="TaskerTreeView.TaskerTreeView.satList"><strong>satList</strong></a> (<a class="reference internal" href="spacecraft.html#spacecraft.spacecraft" title="spacecraft.spacecraft"><em>spacecraft</em></a><em>[</em><em>]</em>) – List of satellites plotted</p></li>
+<li><p><a class="reference internal" href="#TaskerTreeView.TaskerTreeView.pointList" title="TaskerTreeView.TaskerTreeView.pointList"><strong>pointList</strong></a> (<a class="reference internal" href="TaskerPoint.html#TaskerPoint.Point" title="TaskerPoint.Point"><em>Point</em></a><em>[</em><em>]</em>) – List of points plotted</p></li>
+<li><p><a class="reference internal" href="#TaskerTreeView.TaskerTreeView.masterList" title="TaskerTreeView.TaskerTreeView.masterList"><strong>masterList</strong></a> – List of satellites and points plotted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>master</strong> (<a class="reference internal" href="TaskerGui.html#TaskerGui.Application" title="TaskerGui.Application"><em>Application</em></a>) – The parent application of the treeview</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – the width of the tree view</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – the height of the tree view</p></li>
+<li><p><strong>strfont_name</strong> – the font used for the text in the tree</p></li>
+<li><p><strong>font_size</strong> (<em>int</em>) – the font size used for the text in the tree</p></li>
+<li><p><strong>font_color</strong> (<em>str</em>) – the font color used for the text in the tree</p></li>
+<li><p><strong>indicator_foreground</strong> (<em>str</em>) – the indicator foreground color</p></li>
+<li><p><strong>background</strong> (<em>str</em>) – the background color</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.addPoint">
+<code class="sig-name descname">addPoint</code><span class="sig-paren">(</span><em class="sig-param">point</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.addPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a point to the tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point</strong> (<a class="reference internal" href="TaskerPoint.html#TaskerPoint.Point" title="TaskerPoint.Point"><em>Point</em></a>) – Point to be added to the tree</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.addSatellite">
+<code class="sig-name descname">addSatellite</code><span class="sig-paren">(</span><em class="sig-param">satellite</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.addSatellite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a satellite to the tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>satellite</strong> (<em>satellite</em>) – Satellite to be added to the tree</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.create_image_icon">
+<code class="sig-name descname">create_image_icon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.create_image_icon" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a new square image (140X140) that looks like 3 layers 
+of RGB.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.create_pct_square">
+<code class="sig-name descname">create_pct_square</code><span class="sig-paren">(</span><em class="sig-param">size</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.create_pct_square" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a new square image of a variety of colors, and returns it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.create_white_square">
+<code class="sig-name descname">create_white_square</code><span class="sig-paren">(</span><em class="sig-param">size</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.create_white_square" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a new image, all white with a black border, and returns it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.event_publish">
+<code class="sig-name descname">event_publish</code><span class="sig-paren">(</span><em class="sig-param">cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.event_publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publishes an event to all subscribers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<em>str</em>) – Command to be published</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.event_receive">
+<code class="sig-name descname">event_receive</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.event_receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an event from a subscription</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> – The event received from a subscription</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.event_subscribe">
+<code class="sig-name descname">event_subscribe</code><span class="sig-paren">(</span><em class="sig-param">obj_ref</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.event_subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes obj_ref to the TaskerGui.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj_ref</strong> – object to be subscribed to TaskerGui</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.fileMenu">
+<code class="sig-name descname">fileMenu</code><span class="sig-paren">(</span><em class="sig-param">choice=None</em>, <em class="sig-param">iid=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.fileMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the file menu</p>
+<p>:param choice
+:param iid</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.item_text">
+<code class="sig-name descname">item_text</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.item_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a tuple of values, return the text contents, or an empty string</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TaskerTreeView.TaskerTreeView.masterList">
+<code class="sig-name descname">masterList</code><em class="property"> = []</em><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.masterList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TaskerTreeView.TaskerTreeView.pointList">
+<code class="sig-name descname">pointList</code><em class="property"> = []</em><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.pointList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TaskerTreeView.TaskerTreeView.satList">
+<code class="sig-name descname">satList</code><em class="property"> = []</em><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.satList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TaskerTreeView.TaskerTreeView.select">
+<code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerTreeView.TaskerTreeView.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>When the item’s text is clicked on with mouse button 1.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TaskerGui</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alex Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/TaskerTreeView.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

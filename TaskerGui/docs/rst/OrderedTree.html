@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>OrderedTree module &#8212; TaskerGui 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-OrderedTree">
+<span id="orderedtree-module"></span><h1>OrderedTree module<a class="headerlink" href="#module-OrderedTree" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="OrderedTree.OrderedTree">
+<em class="property">class </em><code class="sig-prename descclassname">OrderedTree.</code><code class="sig-name descname">OrderedTree</code><a class="headerlink" href="#OrderedTree.OrderedTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The children are ordered (using a linked-list)
+And the nodes are organized into a tree of nodes with children.
+There is only one root node.</p>
+<p>Example:
+1. create an ampty tree:
+from OrderedTree import OrderedTree
+tree = OrderedTree()</p>
+<p>2. add root node
+tree_root = tree.create_node(identifier=”root”)</p>
+<p>3. add some children to the root:
+child1 = tree.create_node(identifier=”child1”, parent=tree_root)
+child2 = tree.create_node(identifier=”child2”, parent=tree_root)
+child3 = tree.create_node(identifier=”child3”, parent=tree_root)
+child4 = tree.create_node(identifier=”child4”, parent=tree_root)</p>
+<p>4. add children to “child1”
+child1_1 = tree.create_node(identifier=”child1_1”, parent=child1)
+child1_2 = tree.create_node(identifier=”child1_2”, parent=child1)
+child1_3 = tree.create_node(identifier=”child1_3”, parent=child1)</p>
+<p>5. remove a node:
+tree.remove_node(“child1_1”)</p>
+<p>6. debug print the tree:
+tree.print()</p>
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.create_node">
+<code class="sig-name descname">create_node</code><span class="sig-paren">(</span><em class="sig-param">identifier=None</em>, <em class="sig-param">parent=None</em>, <em class="sig-param">data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.create_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a child node for given parent node. 
+If identifier string is absent, an ID will be generated automatically.
+parent string is the identifier of the parent.
+If parent is absent, a new root node will be created.
+on success, returns the ID as a string
+on failure, returns False</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.create_node_before">
+<code class="sig-name descname">create_node_before</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">identifier=None</em>, <em class="sig-param">parent=None</em>, <em class="sig-param">data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.create_node_before" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a child node for given parent node.
+index is the position of an existing node that this node is to be</p>
+<blockquote>
+<div><p>placede BEFORE.</p>
+</div></blockquote>
+<p>If identifier string is absent, an ID will be generated automatically.
+parent string is the identifier of the parent.
+If parent is absent, a new root node will be created.
+on success, returns the ID as a string
+on failure, returns False</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.get_node">
+<code class="sig-name descname">get_node</code><span class="sig-paren">(</span><em class="sig-param">identifier</em>, <em class="sig-param">start=None</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.get_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a node if the identifier string is valid,
+ie, if there is any node in the Tree that has this identifier string,
+else returns None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.identifier_exists">
+<code class="sig-name descname">identifier_exists</code><span class="sig-paren">(</span><em class="sig-param">identifier</em>, <em class="sig-param">start=None</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.identifier_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if the given identifier string is in this tree.
+ie, if there is any node in the Tree that has this identifier string,
+returns True if found, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.next_sibling">
+<code class="sig-name descname">next_sibling</code><span class="sig-paren">(</span><em class="sig-param">identifier</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.next_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the next sibling, the node that follows the one indicated 
+by the identifier string.
+Returns None if ‘identifier’ is unknown, or if there is no next-sibling.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.print">
+<code class="sig-name descname">print</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">indent=''</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.print" title="Permalink to this definition">¶</a></dt>
+<dd><p>debug print a tree: prints identifiers
+start should be an existing node in the tree, or None,</p>
+<blockquote>
+<div><p>to start printing at the root of the tree</p>
+</div></blockquote>
+<dl class="simple">
+<dt>indent is a string with spaces for indenting items based </dt><dd><p>on parent/child relationships.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.remove_node">
+<code class="sig-name descname">remove_node</code><span class="sig-paren">(</span><em class="sig-param">identifier</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.remove_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a node indicated by the string identifier
+All the successors are removed as well.
+Returns the number of removed nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="OrderedTree.OrderedTree.remove_node_obj">
+<code class="sig-name descname">remove_node_obj</code><span class="sig-paren">(</span><em class="sig-param">node</em><span class="sig-paren">)</span><a class="headerlink" href="#OrderedTree.OrderedTree.remove_node_obj" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TaskerGui</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alex Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/OrderedTree.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

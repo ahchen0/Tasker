@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>TaskerGui module &#8212; TaskerGui 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-TaskerGui">
+<span id="taskergui-module"></span><h1>TaskerGui module<a class="headerlink" href="#module-TaskerGui" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="TaskerGui.Application">
+<em class="property">class </em><code class="sig-prename descclassname">TaskerGui.</code><code class="sig-name descname">Application</code><span class="sig-paren">(</span><em class="sig-param">master=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerGui.Application" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Frame</span></code></p>
+<p>Main application class for the Tasker</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>master</strong> (<em>Tk</em>) – Parent class of application. Should be the tkinter root</p></li>
+<li><p><strong>subscribers</strong> – List of subscribers</p></li>
+<li><p><strong>menubar</strong> (<a class="reference internal" href="TaskerMenuBar.html#TaskerMenuBar.TaskerMenuBar" title="TaskerMenuBar.TaskerMenuBar"><em>TaskerMenuBar</em></a>) – Menu bar of GUI</p></li>
+<li><p><strong>buttonbar</strong> (<a class="reference internal" href="TaskerButtonBar.html#TaskerButtonBar.TaskerButtonBar" title="TaskerButtonBar.TaskerButtonBar"><em>TaskerButtonBar</em></a>) – Button bar of GUI</p></li>
+<li><p><strong>treeview</strong> (<a class="reference internal" href="TaskerTreeView.html#TaskerTreeView.TaskerTreeView" title="TaskerTreeView.TaskerTreeView"><em>TaskerTreeView</em></a>) – Satellite and point list of GUI</p></li>
+<li><p><strong>canvas</strong> (<a class="reference internal" href="TaskerCanvas.html#TaskerCanvas.TaskerCanvas" title="TaskerCanvas.TaskerCanvas"><em>TaskerCanvas</em></a>) – Map canvas of GUI</p></li>
+<li><p><strong>time</strong> (<em>datetime</em>) – The current time plotted in on the map</p></li>
+<li><p><strong>statusbar</strong> (<a class="reference internal" href="TaskerStatusBar.html#TaskerStatusBar.TaskerStatusBar" title="TaskerStatusBar.TaskerStatusBar"><em>TaskerStatusBar</em></a>) – The status bar of the GUI. Displays the current time plotted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>master</strong> (<em>Tk</em>) – Parent class of TaskerGui. Usually the root.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="TaskerGui.Application.create_widgets">
+<code class="sig-name descname">create_widgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerGui.Application.create_widgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates all GUI components.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerGui.Application.event_publish">
+<code class="sig-name descname">event_publish</code><span class="sig-paren">(</span><em class="sig-param">cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerGui.Application.event_publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publishes an event to all subscribers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<em>str</em>) – Command to be published</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerGui.Application.event_receive">
+<code class="sig-name descname">event_receive</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerGui.Application.event_receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an event from a subscription</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> – The event received from a subscription</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerGui.Application.event_subscribe">
+<code class="sig-name descname">event_subscribe</code><span class="sig-paren">(</span><em class="sig-param">obj_ref</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerGui.Application.event_subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes obj_ref to the TaskerGui.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj_ref</strong> – object to be subscribed to TaskerGui</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerGui.Application.paned_window_resized">
+<code class="sig-name descname">paned_window_resized</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerGui.Application.paned_window_resized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when paned window is resized</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="TaskerGui.stopProg">
+<code class="sig-prename descclassname">TaskerGui.</code><code class="sig-name descname">stopProg</code><span class="sig-paren">(</span><em class="sig-param">e</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerGui.stopProg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroys the root</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TaskerGui</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alex Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/TaskerGui.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

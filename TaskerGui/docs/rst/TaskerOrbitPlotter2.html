@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>TaskerOrbitPlotter2 module &#8212; TaskerGui 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-TaskerOrbitPlotter2">
+<span id="taskerorbitplotter2-module"></span><h1>TaskerOrbitPlotter2 module<a class="headerlink" href="#module-TaskerOrbitPlotter2" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter">
+<em class="property">class </em><code class="sig-prename descclassname">TaskerOrbitPlotter2.</code><code class="sig-name descname">TaskerOrbitPlotter</code><span class="sig-paren">(</span><em class="sig-param">master</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The TaskerOrbitPlotter contains all functions necessary to process
+satellite orbit data, propogate orbits over selected time frames,
+and display the orbits on a map in the Tasker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>master</strong> (<a class="reference internal" href="TaskerCanvas.html#TaskerCanvas.TaskerCanvas" title="TaskerCanvas.TaskerCanvas"><em>TaskerCanvas</em></a>) – The parent of this instance of TaskerOrbitPlotter</p></li>
+<li><p><strong>satellites</strong> (<em>EarthSatellite</em><em>[</em><em>]</em>) – List of satellites with data scraped from celestrak.com</p></li>
+<li><p><strong>zoom</strong> (<em>int</em>) – Current zoom level of map</p></li>
+<li><p><strong>top</strong> (<em>int</em>) – Vertical index of top-left OSM tile of map at current zoom level</p></li>
+<li><p><strong>left</strong> (<em>int</em>) – Horizontal index of top-left OSM tile of map at current zoom level</p></li>
+<li><p><strong>centerX</strong> (<em>float</em>) – Center longitude of map at current zoom level</p></li>
+<li><p><strong>centerY</strong> (<em>float</em>) – Center latitude of map at current zoom level</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – Width of map in degrees of longitude at current zoom level</p></li>
+<li><p><strong>height</strong> (<em>float</em>) – Height of map in degrees of latitude at current zoom level</p></li>
+<li><p><strong>zoomHistory</strong> (<em>int</em><em>[</em><em>]</em>) – Tracks the quadrant every time you zoom in so you know what quadrant
+to zoom out to each time the user clicks on zoom out</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>master</strong> (<a class="reference internal" href="TaskerCanvas.html#TaskerCanvas.TaskerCanvas" title="TaskerCanvas.TaskerCanvas"><em>TaskerCanvas</em></a>) – Parent class. Should be a TaskerCanvas</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.calcOrientationVector">
+<code class="sig-name descname">calcOrientationVector</code><span class="sig-paren">(</span><em class="sig-param">sat</em>, <em class="sig-param">point</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.calcOrientationVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates vector between a satellite and a point on Earth for the current time plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sat</strong> (<a class="reference internal" href="spacecraft.html#spacecraft.spacecraft" title="spacecraft.spacecraft"><em>spacecraft</em></a>) – The satellite to calculate the orientation vector for</p></li>
+<li><p><strong>point</strong> (<a class="reference internal" href="TaskerPoint.html#TaskerPoint.Point" title="TaskerPoint.Point"><em>Point</em></a>) – The target point to calculate the orientation vector for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The orientation vector in km</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.download_url">
+<code class="sig-name descname">download_url</code><span class="sig-paren">(</span><em class="sig-param">zoom</em>, <em class="sig-param">xtile</em>, <em class="sig-param">ytile</em>, <em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.download_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads OpenStreetMap tiles given the zoom level and
+tile indices and saves it as a png file. These are
+combined in drawMap() to make a complete image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zoom</strong> (<em>int</em>) – The zoom level of the tile to download</p></li>
+<li><p><strong>xtile</strong> (<em>int</em>) – The x-index of the tile to download</p></li>
+<li><p><strong>ytile</strong> (<em>int</em>) – The y-index of the tile to download</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The filename to save the png file to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.drawMap">
+<code class="sig-name descname">drawMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.drawMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines map tile images to make a full map</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.get_concat_h">
+<code class="sig-name descname">get_concat_h</code><span class="sig-paren">(</span><em class="sig-param">im1</em>, <em class="sig-param">im2</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.get_concat_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to horizontally concatenate map tile images</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>im1</strong> (<em>Image</em>) – The first image to be concatenated</p></li>
+<li><p><strong>im2</strong> (<em>Image</em>) – The second image to be concatenated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The concatenated image</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.get_concat_v">
+<code class="sig-name descname">get_concat_v</code><span class="sig-paren">(</span><em class="sig-param">im1</em>, <em class="sig-param">im2</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.get_concat_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to vertically concatenate map tile images</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>im1</strong> (<em>Image</em>) – The first image to be concatenated</p></li>
+<li><p><strong>im2</strong> (<em>Image</em>) – The second image to be concatenated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The concatenated image</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.lla2ecef">
+<code class="sig-name descname">lla2ecef</code><span class="sig-paren">(</span><em class="sig-param">lat</em>, <em class="sig-param">lng</em>, <em class="sig-param">alt</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.lla2ecef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts coordinates between LLA [deg, deg, km] and ECEF [km, km, km]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat</strong> (<em>float</em>) – latitude [deg]</p></li>
+<li><p><strong>lng</strong> (<em>float</em>) – longitude [deg]</p></li>
+<li><p><strong>alt</strong> (<em>float</em>) – altitude [km]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Converted ECEF coordinates (in km)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">sat</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called whenever an orbit for a satellite needs to be plotted on the map.</p>
+<p>Plots the orbit from -180 to 180 degrees longitude for the current orbit.
+For most satellites, this means that one full period is plotted.
+For satellites near polar orbit, multiple periods may be plotted.
+The time plotted for the orbit is the current system time defined
+in the TaskerGui</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sat</strong> (<a class="reference internal" href="spacecraft.html#spacecraft.spacecraft" title="spacecraft.spacecraft"><em>spacecraft</em></a>) – The spacecraft whose orbit is to be plotted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.plotPoint">
+<code class="sig-name descname">plotPoint</code><span class="sig-paren">(</span><em class="sig-param">point</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.plotPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called whenever a point needs to be plotted on the map</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point</strong> (<a class="reference internal" href="TaskerPoint.html#TaskerPoint.Point" title="TaskerPoint.Point"><em>Point</em></a>) – The point to be plotted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.search">
+<code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param">sat</em>, <em class="sig-param">lat</em>, <em class="sig-param">long</em>, <em class="sig-param">timeStart</em>, <em class="sig-param">timeEnd</em>, <em class="sig-param">tolerance</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the time for which a satellite is over the given coordinates within the time range given</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sat</strong> (<em>satellite</em>) – The satellite of interest</p></li>
+<li><p><strong>lat</strong> (<em>float</em>) – The latitude of the search point</p></li>
+<li><p><strong>lon</strong> (<em>float</em>) – The longitude of the search point</p></li>
+<li><p><strong>timeStart</strong> (<em>datetime</em>) – The beginning of the time range to search through</p></li>
+<li><p><strong>timeEnd</strong> (<em>datetime</em>) – The end of the time range to search through</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – How close a satellite needs to the point (in km)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The time at which the satellite is over the given coordinates. Returns None if not found</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.show">
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the plot and displays the map image</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.updateAll">
+<code class="sig-name descname">updateAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.updateAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the plot to the currently set time in TaskerGui</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.zoomIn">
+<code class="sig-name descname">zoomIn</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.zoomIn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zooms in the map by one zoom level to the quadrant clicked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>tkinter.event</em>) – Click event</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerOrbitPlotter2.TaskerOrbitPlotter.zoomOut">
+<code class="sig-name descname">zoomOut</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerOrbitPlotter2.TaskerOrbitPlotter.zoomOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zooms out the map by one zoom level</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>tkinter.event</em>) – Click event</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TaskerGui</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alex Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/TaskerOrbitPlotter2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

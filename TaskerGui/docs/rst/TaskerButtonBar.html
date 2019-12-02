@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>TaskerButtonBar module &#8212; TaskerGui 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-TaskerButtonBar">
+<span id="taskerbuttonbar-module"></span><h1>TaskerButtonBar module<a class="headerlink" href="#module-TaskerButtonBar" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="TaskerButtonBar.TaskerButtonBar">
+<em class="property">class </em><code class="sig-prename descclassname">TaskerButtonBar.</code><code class="sig-name descname">TaskerButtonBar</code><span class="sig-paren">(</span><em class="sig-param">master=None</em>, <em class="sig-param">size=32</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Frame</span></code></p>
+<p>Creates the buttonbar for use in the Tasker GUI.
+Builds each of the button items, and attaches functions to each.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>master</strong> (<a class="reference internal" href="TaskerGui.html#TaskerGui.Application" title="TaskerGui.Application"><em>Application</em></a>) – Parent application of the menu bar</p></li>
+<li><p><strong>subscribers</strong> – List of subscribers</p></li>
+<li><p><strong>buttonbar</strong> (<a class="reference internal" href="ButtonBar.html#ButtonBar.ButtonBar" title="ButtonBar.ButtonBar"><em>ButtonBar</em></a>) – The tkinter buttonbar</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>master</strong> (<a class="reference internal" href="TaskerGui.html#TaskerGui.Application" title="TaskerGui.Application"><em>Application</em></a>) – The parent application of the button bar</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – The size of the button bar</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="TaskerButtonBar.TaskerButtonBar.event_publish">
+<code class="sig-name descname">event_publish</code><span class="sig-paren">(</span><em class="sig-param">cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar.event_publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publishes an event to all subscribers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<em>str</em>) – Command to be published</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerButtonBar.TaskerButtonBar.event_receive">
+<code class="sig-name descname">event_receive</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar.event_receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an event from a subscription</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> – The event received from a subscription</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerButtonBar.TaskerButtonBar.event_subscribe">
+<code class="sig-name descname">event_subscribe</code><span class="sig-paren">(</span><em class="sig-param">obj_ref</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar.event_subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes obj_ref to the TaskerGui.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj_ref</strong> – object to be subscribed to TaskerGui</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerButtonBar.TaskerButtonBar.setTime">
+<code class="sig-name descname">setTime</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar.setTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the setTime popup</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerButtonBar.TaskerButtonBar.updateTime">
+<code class="sig-name descname">updateTime</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar.updateTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the currently plotted time to the time selected by the user in the setTime popup</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerButtonBar.TaskerButtonBar.zoomIn">
+<code class="sig-name descname">zoomIn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar.zoomIn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the zoomIn button is clicked</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskerButtonBar.TaskerButtonBar.zoomOut">
+<code class="sig-name descname">zoomOut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskerButtonBar.TaskerButtonBar.zoomOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the zoomOut button is clicked</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TaskerGui</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alex Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/TaskerButtonBar.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>TreeViewPlus module &#8212; TaskerGui 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-TreeViewPlus">
+<span id="treeviewplus-module"></span><h1>TreeViewPlus module<a class="headerlink" href="#module-TreeViewPlus" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="TreeViewPlus.TreeViewPlus">
+<em class="property">class </em><code class="sig-prename descclassname">TreeViewPlus.</code><code class="sig-name descname">TreeViewPlus</code><span class="sig-paren">(</span><em class="sig-param">master</em>, <em class="sig-param">columns=[]</em>, <em class="sig-param">width=500</em>, <em class="sig-param">height=500</em>, <em class="sig-param">background='white'</em>, <em class="sig-param">font_name='Times'</em>, <em class="sig-param">font_size=12</em>, <em class="sig-param">font_color='black'</em>, <em class="sig-param">indicator_foreground='black'</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Frame</span></code></p>
+<dl>
+<dt>Creates the Treeview for use in the GeoStar GUI.</dt><dd><blockquote>
+<div><p>This is a complete rewrite of the tk/ttk treeview widget which
+does not suit our needs. What follows is the documentation for ttk.TreeView
+as provided at:
+<a class="reference external" href="http://infohost.nmt.edu/~shipman/soft/tkinter/web/ttk-Treeview.html">http://infohost.nmt.edu/~shipman/soft/tkinter/web/ttk-Treeview.html</a></p>
+</div></blockquote>
+<p>The purpose of the ttk.Treeview widget is to present a hierarchical
+structure so that the user can use mouse actions to reveal or hide
+any part of the structure.</p>
+</dd>
+</dl>
+<p>The association with the term “tree” is due to programming practice:
+tree structures are a commonplace in program design. Strictly
+speaking, the hierarchy shown in a Treeview widget is a forest: there
+is no one root, just a collection of top-level nodes, each of which
+may contain second-level nodes, each of which may contain third-level
+nodes, and so on.</p>
+<p>You may have encountered this particular presentation as a way of
+browsing a directory or folder hierarchy. The entire hierarchy is
+displayed like an indented outline, where each directory is on a
+separate line, and the subdirectories of each directory are displayed
+underneath that line, indented:</p>
+<p>The user can click on the icon for a directory to collapse (close) it,
+hiding all of the items in it. They can also click again on the icon
+to expand (open) it, so that the items in the directory or folder are
+shown.</p>
+<p>The Treeview widget generalizes this concept so that you can use it to
+display any hierarchical structure, and the reader can collapse or
+expand subtrees of this structure with the mouse.</p>
+<p>First, some definitions:</p>
+<p>item</p>
+<blockquote>
+<div><p>One of the entities being displayed in the widget. For a file
+browser, an item might be either a directory or a file.</p>
+<p>Each item is associated with a textual label, and may also be
+associated with an image.</p>
+</div></blockquote>
+<p>iid</p>
+<blockquote>
+<div><p>Every item in the tree has a unique identifier string called the
+iid. You can supply the iid values yourself, or you can let ttk
+generate them.</p>
+</div></blockquote>
+<p>child</p>
+<blockquote>
+<div><p>The items directly below a given item in a hierarchy. A directory,
+for example, may have two kinds of children: files and
+subdirectories.</p>
+</div></blockquote>
+<p>parent</p>
+<blockquote>
+<div><p>For a given item, if it is at the top of the hierarchy it is said
+to have no parent; if it is not at the top level, the parent is
+the item that contains it.</p>
+</div></blockquote>
+<p>ancestor</p>
+<blockquote>
+<div><p>The ancestors of an item include its parent, its parent’s parent,
+and so on up to the top level of the tree.</p>
+</div></blockquote>
+<p>visible</p>
+<blockquote>
+<div><p>Top-level items are always visible. Otherwise, an item is visible
+only if all its ancestors are expanded.</p>
+</div></blockquote>
+<p>descendant</p>
+<blockquote>
+<div><p>The descendants of an item include its children, its childrens’
+children, and so on. Another way of saying this is that the
+subtree of an item includes all its descendants.</p>
+</div></blockquote>
+<p>tag</p>
+<blockquote>
+<div><p>Your program can associate one or more tag strings with each
+item. You can use these tags to control the appearance of an
+item. For example, you could tag directories with the tag ‘d’ and
+files with the tag ‘f’, and then specify that items with tag ‘d’
+use a boldface font.</p>
+<p>You may also associate events with tags, so that certain events
+will cause certain handlers to be called for all items that have
+that tag. For example, you could set up a file browser so that
+when a user clicks on a directory, the browser updated its
+contents to reflect the current file structure.</p>
+</div></blockquote>
+<p>Your Treeview widget will be structured with multiple columns. The
+first column, which we’ll call the icon column, displays the icons
+that collapse or expand items. In the remaining columns, you may
+display whatever information you like.</p>
+<p>For example, a simple file browser widget might use two columns, with
+the directory icons in the first column and the directory or file name
+in the second columns. Or you might wish to display file sizes,
+permissions, and other related data in additional columns.</p>
+<p>The operations of the Treeview widget even allow you to use it as a
+tree editor. Your program can remove an entire subtree from its
+location in the main tree and then attach it later at an entirely
+different point.</p>
+<p>Here is the general procedure for setting up a Treeview widget.</p>
+<blockquote>
+<div><p>Create the widget with the ttk.Treeview constructor. Use the
+columns keyword argument to specify the number of columns to be
+displayed and to assign symbolic names to each column.</p>
+<p>Use the .column() and .heading() methods to set up column headings
+(if you want them) and configure column properties such as size
+and stretchability.</p>
+<p>Starting with the top-level entries, use the .insert() method to
+populate the tree. Each call to this method adds one item to the
+tree. Use the open keyword argument of this method to specify
+whether the item is initially expanded or collapsed.</p>
+<p>If you want to supply the iid value for this item, use the iid
+keyword argument. If you omit this argument, ttk will make one up
+and return it as the result of the .insert() method call.</p>
+<p>Use the values keyword argument of this method to specify what
+should appear in each column of this item when it is visible.</p>
+</div></blockquote>
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.add_to_selection">
+<code class="sig-name descname">add_to_selection</code><span class="sig-paren">(</span><em class="sig-param">event</em>, <em class="sig-param">item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.add_to_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>add the selected item to the selection.
+adds the iid string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.bind">
+<code class="sig-name descname">bind</code><span class="sig-paren">(</span><em class="sig-param">sequence</em>, <em class="sig-param">callback</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.bind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a bind on treeview do abind on the canvas</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.column">
+<code class="sig-name descname">column</code><span class="sig-paren">(</span><em class="sig-param">column_id</em>, <em class="sig-param">option=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.column" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.delete">
+<code class="sig-name descname">delete</code><span class="sig-paren">(</span><em class="sig-param">item_ids</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>deletes items in the tree as specified by the list of strings in item_ids.
+returns True on success, False otherwise
+Does not delete the root item</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.delete_item">
+<code class="sig-name descname">delete_item</code><span class="sig-paren">(</span><em class="sig-param">item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.delete_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>deletes an item in the tree as specified by the string item_id.
+returns True on success, False otherwise
+Does not delete the root item</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.event_publish">
+<code class="sig-name descname">event_publish</code><span class="sig-paren">(</span><em class="sig-param">cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.event_publish" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.event_receive">
+<code class="sig-name descname">event_receive</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.event_receive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.event_subscribe">
+<code class="sig-name descname">event_subscribe</code><span class="sig-paren">(</span><em class="sig-param">obj_ref</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.event_subscribe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.exists">
+<code class="sig-name descname">exists</code><span class="sig-paren">(</span><em class="sig-param">item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns True if the specified item (specified by the item_id string)
+is present.
+returns False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.get_children">
+<code class="sig-name descname">get_children</code><span class="sig-paren">(</span><em class="sig-param">item_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.get_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns list of strings of item_ids that are children of the
+item specified by the string item_id
+If item_id not specified, returns children of root node.
+If there are no children, retuns an empty list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.index">
+<code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="sig-param">item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the integer index of item within its parent’s list of children.
+returns -1 if not found. index=0 is the first item.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">parent</em>, <em class="sig-param">index</em>, <em class="sig-param">iid=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.item">
+<code class="sig-name descname">item</code><span class="sig-paren">(</span><em class="sig-param">item_id</em>, <em class="sig-param">option=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query or modify the options for the specified item.
+Refer to the .insert() method above for the names of the item options.</p>
+<p>If no options or keywords are given, a dict with options/values 
+for the item is returned. 
+If option is specified, then the value for that option is returned. 
+Otherwise, sets the options to the corresponding values as given by kw,</p>
+<blockquote>
+<div><p>and returns True.</p>
+</div></blockquote>
+<p>Returns None if can’t find the item_id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.menu_selection">
+<code class="sig-name descname">menu_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.menu_selection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.menus">
+<code class="sig-name descname">menus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.menus" title="Permalink to this definition">¶</a></dt>
+<dd><p>return list of menubuttons</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.next">
+<code class="sig-name descname">next</code><span class="sig-paren">(</span><em class="sig-param">item_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the identifier of item’s next sibling, 
+or an empty string if item is the last child of its parent, 
+or item is not found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.on_resize">
+<code class="sig-name descname">on_resize</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.on_resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the widget so that it can be resized with a mouse-drag.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.onmenu">
+<code class="sig-name descname">onmenu</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.onmenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>debug only for now.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.onom">
+<code class="sig-name descname">onom</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.onom" title="Permalink to this definition">¶</a></dt>
+<dd><p>debug only for now.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.paint">
+<code class="sig-name descname">paint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.paint" title="Permalink to this definition">¶</a></dt>
+<dd><p>re-draws the canvas associated with this widget.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.paint_item">
+<code class="sig-name descname">paint_item</code><span class="sig-paren">(</span><em class="sig-param">nodeid</em>, <em class="sig-param">indent</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.paint_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>nodeid is a string that gives the current node to paint.
+indent is the indent-level, an integer from 0-&gt;whatever.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.parent">
+<code class="sig-name descname">parent</code><span class="sig-paren">(</span><em class="sig-param">item_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the ID of the parent of item, 
+or an empty string if the item is at the top level of the hierarchy, 
+or is not found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.parse_tags">
+<code class="sig-name descname">parse_tags</code><span class="sig-paren">(</span><em class="sig-param">tags</em>, <em class="sig-param">kw</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.parse_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a string, tags, and a keyword, kw, this function tries to find
+a substring that looks like:</p>
+<blockquote>
+<div><p>kw=value</p>
+</div></blockquote>
+<p>and returns the value of the first one it finds, 
+otherwise it returns an empty string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.position_to_iid">
+<code class="sig-name descname">position_to_iid</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.position_to_iid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a position in the canvas, return the item-id,
+or None if not close enough…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.prev">
+<code class="sig-name descname">prev</code><span class="sig-paren">(</span><em class="sig-param">item_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.prev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the identifier of item’s previous sibling, 
+or an empty string if item is the first child of its parent, 
+or if not found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.scroll_x">
+<code class="sig-name descname">scroll_x</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.scroll_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scroll canvas horizontally and redraw the image</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.scroll_y">
+<code class="sig-name descname">scroll_y</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.scroll_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scroll canvas vertically and redraw the image</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.selection">
+<code class="sig-name descname">selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of selected items (iid’s)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.set_indicator_foreground">
+<code class="sig-name descname">set_indicator_foreground</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">newcolor</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.set_indicator_foreground" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets all black pixels in the passed-in image to the indicated newcolor.
+returns a new image.
+Supposed to be used to change the color of the open/close indicator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TreeViewPlus.TreeViewPlus.toggle_open_close">
+<code class="sig-name descname">toggle_open_close</code><span class="sig-paren">(</span><em class="sig-param">event</em>, <em class="sig-param">item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#TreeViewPlus.TreeViewPlus.toggle_open_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>modify the current view to toggle the state of the selected item,
+either changing the value of “open” to True if its False,
+or changing the value of “open” to False if its True
+Currently, this has no effect on the “open” state of any of its 
+children.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TaskerGui</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alex Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/TreeViewPlus.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

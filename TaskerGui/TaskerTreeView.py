@@ -13,14 +13,26 @@ from TaskerPoint import Point
 import MenuBar
 
 class TaskerTreeView(tk.Frame):
+        """
+        Creates the Treeview for use in the Tasker GUI.
+
+        :ivar spacecraft[] satList: List of satellites plotted
+        :ivar Point[] pointList: List of points plotted
+        :ivar masterList: List of satellites and points plotted
+        :param Application master: The parent application of the treeview
+        :param int width: the width of the tree view
+        :param int height: the height of the tree view
+        :param strfont_name: the font used for the text in the tree
+        :param int font_size: the font size used for the text in the tree
+        :param str font_color: the font color used for the text in the tree
+        :param str indicator_foreground: the indicator foreground color
+        :param str background: the background color
+        """
 
         satList = []
         pointList = []
         masterList = []
 
-        """
-        Creates the Treeview for use in the Tasker GUI.
-        """
         def __init__(self, master, width=500, height=500,
                                   font_name="Times", font_size=12, font_color="black",
                                   indicator_foreground="black", background="white"):
@@ -198,13 +210,31 @@ class TaskerTreeView(tk.Frame):
 
                 
         def event_subscribe(self, obj_ref):
+                """
+                Subscribes obj_ref to the TaskerGui.
+
+                :param obj_ref: object to be subscribed to TaskerGui
+                """
+
                 self.subscribers.append(obj_ref)
 
         def event_publish(self, cmd):
+                """
+                Publishes an event to all subscribers
+
+                :param str cmd: Command to be published
+                """
+
                 for sub in self.subscribers:
                         sub.event_receive(cmd)
 
         def event_receive(self,event):
+                """
+                Receives an event from a subscription
+
+                :param event: The event received from a subscription
+                """
+
                 if len(event) > 0:
                         type = event[0]
                         if ( type == "TaskerMenuBar::addSatellite" or
@@ -216,6 +246,11 @@ class TaskerTreeView(tk.Frame):
                         return
 
         def addSatellite(self, satellite):
+                """
+                Adds a satellite to the tree
+
+                :param satellite satellite: Satellite to be added to the tree
+                """
                 self.satList.append(satellite)
                 self.masterList.append(satellite)
                 file_options={}
@@ -245,18 +280,27 @@ class TaskerTreeView(tk.Frame):
                 self.treeview.insert(f_id, 'end', values =(["text", "Rev Num at Epoch: " + satellite.revolutionNumberAtEpoch],), hidden = "image")
 
         def addPoint(self, point):
+                """
+                Adds a point to the tree
+
+                :param Point point: Point to be added to the tree
+                """
                 self.masterList.append(point)
                 self.pointList.append(point)
                 file_options={}
                 file_options["menu-options"] =  {"tearoff": 0}
                 file_options["menu-items"] =  [ {"label":"close", "command": self.fileMenu, "choice":"close"}, ]
                 f_id = self.treeview.insert('','end',values=(["text",point.name,file_options],), hidden="file")
-                self.treeview.insert(f_id, 'end', values =(["text", "Latitude: " + point.lat],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "Longitude: " + point.lon],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Latitude: " + str(point.lat)],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Longitude: " + str(point.lon)],), hidden = "image")
 
         ########################################################################
         def fileMenu(self,  choice=None, iid=None):
                 """
+                Creates the file menu
+
+                :param choice
+                :param iid
                 """
                 if iid is None:
                         return
@@ -271,12 +315,19 @@ class TaskerTreeView(tk.Frame):
                         for sat in self.satList:
                                 if sat.name == file_name:
                                         self.satList.remove(sat)
+                        # Remove point from pointList
+                        for point in self.pointList:
+                                if point.name == file_name:
+                                        self.pointList.remove(point)
+                        # Remove from masterList
+                        for obj in self.masterList:
+                                if obj.name == file_name:
+                                        self.masterList.remove(obj)
                         self.master.canvas.plotter.updateAll()
                 
         ########################################################################
+        """
         def raster_menu_select(self, selfmb=None, iid=None, image=None, choice=None):
-                """
-                """
                 if selfmb is None:
                         return
                 if image is not None:
@@ -364,6 +415,7 @@ class TaskerTreeView(tk.Frame):
                 self.event_publish(["TaskerTreeView::raster_menu_select",choice,raster_name, image_name, file_name])
                 print("event published:"+"TaskerTreeView::raster_menu_select"+", "+choice+", "+raster_name+", "+ image_name+", "+ file_name)
                 return
+        """
 
         def item_text(self,item):
                 """
