@@ -3,7 +3,7 @@ import tkinter.ttk as ttk
 
 
 class Tooltip:
-    '''
+    """
     It creates a tooltip for a given widget as the mouse goes on it.
 
     see:
@@ -31,7 +31,7 @@ class Tooltip:
       Tested on Ubuntu 16.04/16.10, running Python 3.5.2
 
     TODO: themes styles support
-    '''
+    """
 
     def __init__(self, widget,
                  *,
@@ -54,23 +54,45 @@ class Tooltip:
         self.tw = None
 
     def onEnter(self, event=None):
+        """
+        Called when cursor enters button range
+
+        :param Event event: Enter event
+        """
         self.schedule()
 
     def onLeave(self, event=None):
+        """
+        Called when cursor exits button range
+
+        :param Event event: Exit event
+        """
+
         self.unschedule()
         self.hide()
 
     def schedule(self):
+        """
+        Schedules the tooltip to appear
+        """
+
         self.unschedule()
         self.id = self.widget.after(self.waittime, self.show)
 
     def unschedule(self):
+        """
+        Unschedules the tooltip
+        """
+
         id_ = self.id
         self.id = None
         if id_:
             self.widget.after_cancel(id_)
 
     def show(self):
+        """
+        Displays the tooltip
+        """
         def tip_pos_calculator(widget, label,
                                *,
                                tip_delta=(10, 5), pad=(5, 3, 5, 3)):
@@ -148,6 +170,9 @@ class Tooltip:
         self.tw.wm_geometry("+%d+%d" % (x, y))
 
     def hide(self):
+        """
+        Hides the tooltip
+        """
         tw = self.tw
         if tw:
             tw.destroy()

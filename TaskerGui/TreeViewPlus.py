@@ -1218,19 +1218,34 @@ or a hexadecimal rgb triple, like "#000000" for black, "#ffffff" for white,
         
         #########################################################################
         def event_subscribe(self, obj_ref):
-            self.subscribers.append(obj_ref)
+                """
+                Subscribes obj_ref to the TaskerGui.
+
+                :param obj_ref: object to be subscribed to TaskerGui
+                """
+                self.subscribers.append(obj_ref)
 
         def event_publish(self, cmd):
-            for sub in self.subscribers:
-                sub.event_receive(cmd)
+                """
+                Publishes an event to all subscribers
+
+                :param str cmd: Command to be published
+                """
+                for sub in self.subscribers:
+                        sub.event_receive(cmd)
 
         def event_receive(self,event):
-            if len(event) > 0:
-                type = event[0]
-                if ( type == "GeoStarMenuBar::fileOpen" or
-                     type == "GeoStarButtonBar::fileOpen" ):
-                    if len(event)>1:
-                        filename = event[1]
-                        self.fileOpen(filename)
-                else:
-                    return
+                """
+                Receives an event from a subscription
+
+                :param event: The event received from a subscription
+                """
+                if len(event) > 0:
+                        type = event[0]
+                        if ( type == "GeoStarMenuBar::fileOpen" or
+                        type == "GeoStarButtonBar::fileOpen" ):
+                                if len(event)>1:
+                                        filename = event[1]
+                                        self.fileOpen(filename)
+                        else:
+                                return

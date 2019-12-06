@@ -1,6 +1,13 @@
 # Class that contains information for a spacecraft
 
 class spacecraft:
+	"""
+	Class that stores two line element (TLE) data for a satellite
+
+	:param str name: name of satellite
+	:param str line1: first line of TLE
+	:param str line2: second line of TLE
+	"""
 
 	def __init__(self, name, line1, line2):
 		self.name = name.strip()

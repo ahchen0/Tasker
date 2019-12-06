@@ -1,14 +1,13 @@
-"""
-Script for scraping satellite catalog
-on celestrak.com for satellite data
-"""
-
 import bs4
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 from collections import OrderedDict
 
 class Scraper:
+	"""
+	Tool for scraping satellite catalog
+	on celestrak.com for satellite data
+	"""
 
 	def __init__(self):
 		# Gets data from internet
