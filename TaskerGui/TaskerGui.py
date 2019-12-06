@@ -9,8 +9,7 @@ from TaskerMenuBar import TaskerMenuBar
 from TaskerButtonBar import TaskerButtonBar
 from TaskerTreeView import TaskerTreeView
 from TaskerCanvas import TaskerCanvas
-from PythonConsole import PythonConsole
-from TaskerMap import TaskerMap, BrowserFrame, NavigationBar
+#from PythonConsole import PythonConsole
 from satCatScraper import Scraper
 from TaskerStatusBar import TaskerStatusBar
 from datetime import datetime, timezone

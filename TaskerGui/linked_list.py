@@ -8,6 +8,7 @@
 
 class linked_list():
     """
+    A doubly-linked list
     """
     def __init__(self):
         """

@@ -12,13 +12,24 @@ class MenuBar(tk.Frame):
 
        This can be called as often as needed to create all the items 
        in a menubar.
+
+       :param TaskerMenuBar master: parent class
     """
     def __init__(self, master = None):
+        """
+        """
+
         tk.Frame.__init__(self, master)
         self.master = master
         self.menubar = tk.Menu()
 
     def add_item(self,thelist):
+        """
+        Adds an item to the menu bar
+
+        :param thelist: List of items to add to the menu bar
+        """
+
         item = tk.Menu(self.menubar, tearoff=0)
         for i in range(1,len(thelist),2):
             item.add_command(label=thelist[i], command=thelist[i+1])

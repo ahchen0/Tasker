@@ -9,15 +9,20 @@ except ImportError:
 from itertools import cycle
 
 def multiple(*func_list):
-    '''run multiple functions as one'''
+    """
+    run multiple functions as one
+    """
+
     # I can't decide if this is ugly or pretty
     return lambda *args, **kw: [func(*args, **kw) for func in func_list]; None
 
 def scroll_to_view(scroll_set, *view_funcs):
-    ''' Allows one widget to control the scroll bar and other widgets
+    """
+    Allows one widget to control the scroll bar and other widgets
     scroll set: the scrollbar set function
     view_funcs: other widget's view functions
-    '''
+    """
+
     def closure(start, end):
         scroll_set(start, end)
         for func in view_funcs:
@@ -25,20 +30,27 @@ def scroll_to_view(scroll_set, *view_funcs):
     return closure
 
 class MultiListbox(tk.Frame):
+    """
+    makes a multicolumn listbox by combining a bunch of single listboxes
+    with a single scrollbar
+
+    :param columns:
+        (int) the number of columns
+        OR (1D list or strings) the column headers
+    :param data:
+        (1D iterable) auto add some data
+    :param row_select:
+        (boolean) When True, clicking a cell selects the entire row
+
+    All other kwargs are passed to the Listboxes
+    """
 
     selectedRow = None
 
     def __init__(self, master=None, columns=2, data=[], row_select=True, **kwargs):
-        '''makes a multicolumn listbox by combining a bunch of single listboxes
-        with a single scrollbar
-        :columns:
-          (int) the number of columns
-          OR (1D list or strings) the column headers
-        :data:
-          (1D iterable) auto add some data
-        :row_select:
-          (boolean) When True, clicking a cell selects the entire row
-        All other kwargs are passed to the Listboxes'''
+        """
+        """
+
         tk.Frame.__init__(self, master, borderwidth=1, highlightthickness=1, relief=tk.SUNKEN)
         self.rowconfigure(1, weight=1)
         self.columns = columns
@@ -64,6 +76,11 @@ class MultiListbox(tk.Frame):
         self.add_data(data)
 
     def selected(self, event=None):
+        """
+        Called when a box is selected
+
+        :param Event event: Selection event
+        """
         row = event.widget.curselection()[0]
         self.selectedRow = row
         for lbox in self.boxes:
@@ -71,10 +88,13 @@ class MultiListbox(tk.Frame):
             lbox.select_set(row)
 
     def add_data(self, data=[]):
-        '''takes a 1D list of data and adds it row-wise
+        """takes a 1D list of data and adds it row-wise
         If there is not enough data to fill the row, then the row is
         filled with empty strings
-        these will not be back filled; every new call starts at column 0'''
+        these will not be back filled; every new call starts at column 0
+        
+        :param str[] data: data to fill the multi-column listbox with
+        """
         # it is essential that the listboxes all have the same length.
         # because the scroll works on "percent" ...
         # and 100% must mean the same in all cases
@@ -86,20 +106,35 @@ class MultiListbox(tk.Frame):
             next(boxes).insert(tk.END, '')
           
     def __getitem__(self, index):
-        '''get a row'''
+        """
+        get a row
+
+        :param int index: index of row
+        """
         return [box.get(index) for box in self.boxes]
 
     def __delitem__(self, index):
-        '''delete a row'''
+        """
+        delete a row
+
+        :param int index: index of row
+        """
         [box.delete(index) for box in self.boxes]
 
     def curselection(self):
-        '''get the currently selected row'''
+        """
+        get the currently selected row
+        """
+
         selection = self.boxes[0].curselection()
         return selection[0] if selection else None
         
 class GUI(tk.Frame):
-    '''an example gui'''
+    """
+    an example gui
+
+    :param master: Parent class
+    """
     def __init__(self, master=None, **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
 
@@ -116,6 +151,9 @@ class GUI(tk.Frame):
         b.pack(fill=tk.BOTH, expand=True)
 
 def main():
+    """
+    Creates the example GUI
+    """
     root = tk.Tk()
     win = GUI(root)
     win.pack(fill=tk.BOTH, expand=True)
