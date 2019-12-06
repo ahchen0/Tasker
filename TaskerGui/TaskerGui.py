@@ -68,7 +68,7 @@ class Application(tk.Frame):
         self.canvas.pack(side="left", fill=tk.BOTH, expand=True)
         self.event_subscribe(self.canvas)
 
-        self.time = datetime.now()
+        self.time = datetime.utcnow()
         self.statusbar = TaskerStatusBar(self)
         self.statusbar.pack(side="bottom", fill=tk.X, expand = False)
         self.event_subscribe(self.statusbar)
