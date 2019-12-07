@@ -55,6 +55,7 @@ class TaskerMenuBar(tk.Frame):
         self.catalog = []
         file = open("satCat.txt", "r")
         lines = file.readlines()
+        file.close()
         lineNum = 0
         while(lineNum < len(lines)):
             name = lines[lineNum]
@@ -166,7 +167,7 @@ class TaskerMenuBar(tk.Frame):
         """
         Displays the version number
         """
-        messagebox.showinfo("Version","Tasker GUI Version 0.0.1")
+        messagebox.showinfo("Version","Tasker GUI Version 1.0")
 
     def helpDocumentation(self):
         """
@@ -370,6 +371,7 @@ class TaskerMenuBar(tk.Frame):
         :returns: The converted time as a string
         :rtype: str
         """
+        
         year = str(time.year)
 
         if(time.month < 10):

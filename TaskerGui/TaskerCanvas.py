@@ -115,7 +115,7 @@ class TaskerCanvas(ttk.Frame):
             
     def on_resize_parent(self,event):
         """
-        Called when app is resized.
+        Called when app is resized
         """
         #print("parent event size="+str(event.width)+" X "+str(event.height))
         self.canvas_width = event.width

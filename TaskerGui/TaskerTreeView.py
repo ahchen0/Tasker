@@ -60,6 +60,7 @@ class TaskerTreeView(tk.Frame):
                 self.treeview.bind('<<TreeviewSelect>>',self.select)
                 ##self.treeview.bind('<<TreeviewMenuSelect>>',self.menu_select)
 
+                
                 self.red_square = ImageTk.PhotoImage(Image.new("RGB",(self.font_size,self.font_size),color="red"), master=self)
                 self.grn_square = ImageTk.PhotoImage(Image.new("RGB",(self.font_size,self.font_size),color="green"), master=self)
                 self.blu_square = ImageTk.PhotoImage(Image.new("RGB",(self.font_size,self.font_size),color="blue"), master=self)

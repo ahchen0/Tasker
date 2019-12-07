@@ -10,7 +10,7 @@ class TaskerStatusBar(tk.Frame):
     
     def __init__(self, master, width = 500):
         tk.Frame.__init__(self, master)
-        self.statusbar = tk.Text(self, width = width, height = 1);
+        self.statusbar = tk.Text(self, width = width, height = 1)
         self.statusbar.insert(tk.END, "Time Plotted: " + str(master.time))
         self.subscribers = []
         self.size = 32

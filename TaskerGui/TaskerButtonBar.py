@@ -181,5 +181,6 @@ class TaskerButtonBar(tk.Frame):
         minute = int(self.minute.get())
         second = int(self.second.get())
         self.master.time = datetime(year, month, day, hour, minute, second)
+        self.master.statusbar.update(self.master.time)
         self.master.canvas.plotter.updateAll()
 
