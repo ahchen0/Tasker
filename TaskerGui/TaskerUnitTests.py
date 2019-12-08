@@ -9,6 +9,7 @@ from spacecraft2 import spacecraft
 from TaskerPoint import Point
 import threading
 from datetime import datetime
+from matplotlib.backend_bases import MouseEvent, MouseButton
 
 class TestTaskerGuiMethods(unittest.TestCase):
     """
@@ -111,6 +112,9 @@ class TestTaskerMenuBarMethods(unittest.TestCase):
         self.thread.join()
 
 class TestTaskerButtonBarMethods(unittest.TestCase):
+    """
+    Unit tests for button bar methods
+    """
 
     def setUp(self):
         root=tk.Tk()
@@ -160,9 +164,124 @@ class TestTaskerButtonBarMethods(unittest.TestCase):
 
 class TestTaskerTreeViewMethods(unittest.TestCase):
     """
-    Tests Tasker Tree methods
+    Unit tests for tree view methods
     """
 
+    def setUp(self):
+        root=tk.Tk()
+        self.app=Application(master=root)
+
+        # Run the GUI in a different thread so it can run simultaneously
+        # with the unit tests
+        self.thread = threading.Thread(target = self.app.mainloop)
+
+    def test_addSatellite(self):
+        name = "ISS (ZARYA)"
+        line1 = "1 25544U 98067A   19341.76426397  .00000123  00000-0  10168-4 0  9998"
+        line2 = "2 25544  51.6434 220.7574 0006991  10.3191 120.6360 15.50092039202187"
+        sat = spacecraft(name, line1, line2)
+        self.app.treeview.addSatellite(sat)
+        self.assertEqual(self.app.treeview.satList[-1].name, name)
+        self.assertEqual(self.app.treeview.masterList[-1].name, name)
+
+        name = "ORBCOMM FM27"
+        line1 = "1 25481U 98053G   19340.54693811 -.00000035  00000-0  38449-4 0  9990"
+        line2 = "2 25481  45.0083  64.2409 0001227 226.3801 133.6943 14.32857430107779"
+        sat = spacecraft(name, line1, line2)
+        self.app.treeview.addSatellite(sat)
+        self.assertEqual(self.app.treeview.satList[-1].name, name)
+        self.assertEqual(self.app.treeview.masterList[-1].name, name)
+
+    def test_addPoint(self):
+        point = Point("test", 42.2808, -83.7430)
+        self.app.treeview.addPoint(point)
+        self.assertEqual(self.app.treeview.pointList[-1].name, "test")
+        self.assertEqual(self.app.treeview.pointList[-1].lat, 42.2808)
+        self.assertEqual(self.app.treeview.pointList[-1].lon, -83.7430)
+        self.assertEqual(self.app.treeview.masterList[-1].name, "test")
+
+        point = Point("test2", -42.2808, 83.7430)
+        self.app.treeview.addPoint(point)
+        self.assertEqual(self.app.treeview.pointList[-1].name, "test2")
+        self.assertEqual(self.app.treeview.pointList[-1].lat, -42.2808)
+        self.assertEqual(self.app.treeview.pointList[-1].lon, 83.7430)
+        self.assertEqual(self.app.treeview.masterList[-1].name, "test2")
+
+    def cleanUp(self):
+        # Join the threads on close out
+        self.thread.join()
+
+
+class TestTaskerCanvasMethods(unittest.TestCase):
+    """
+    Unit tests for canvas methods
+    """
+
+    def setUp(self):
+        root=tk.Tk()
+        self.app=Application(master=root)
+
+        # Run the GUI in a different thread so it can run simultaneously
+        # with the unit tests
+        self.thread = threading.Thread(target = self.app.mainloop)
+
+    def test_enableDisableZoomIn(self):
+        self.app.canvas.enableZoomIn()
+        self.assertEqual(self.app["cursor"], "cross")
+        self.app.canvas.disableZoomIn()
+        self.assertEqual(self.app["cursor"], "arrow")
+
+    def test_enableDisableZoomOut(self):
+        self.app.canvas.enableZoomOut()
+        self.assertEqual(self.app["cursor"], "cross")
+        self.app.canvas.disableZoomOut()
+        self.assertEqual(self.app["cursor"], "arrow")
+
+    def test_onZoomIn(self):
+        currentZoom = self.app.canvas.plotter.zoom
+        event = MouseEvent(name = "button_press_event", button = MouseButton.LEFT, canvas = self.app.canvas.canvas, x = 503, y = 670)
+        event.xdata = -90
+        event.ydata = 45
+        event.button = MouseButton.LEFT
+        self.app.canvas.onZoomIn(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom + 1)
+
+    def test_onZoomOut(self):
+        currentZoom = self.app.canvas.plotter.zoom
+        event = MouseEvent(name = "button_press_event", button = MouseButton.LEFT, canvas = self.app.canvas.canvas, x = 503, y = 670)
+        event.xdata = -90
+        event.ydata = 45
+        event.button = MouseButton.LEFT
+        self.app.canvas.onZoomIn(event)
+
+        event.xdata = 1
+        event.ydata = 1
+        self.app.canvas.onZoomOut(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom)
+
+    def cleanUp(self):
+        # Join the threads on close out
+        self.thread.join()
+
+
+class TestTaskerStatusBarMethods(unittest.TestCase):
+
+    def setUp(self):
+        root=tk.Tk()
+        self.app=Application(master=root)
+
+        # Run the GUI in a different thread so it can run simultaneously
+        # with the unit tests
+        self.thread = threading.Thread(target = self.app.mainloop)
+
+    def test_update(self):
+        time = datetime(2019, 12, 21, 12, 00, 00)
+        self.app.statusbar.update(time)
+        self.assertEqual(self.app.time, time)
+
+    def cleanUp(self):
+        # Join the threads on close out
+        self.thread.join()
 
 
 class TestMultiColumnListBox(unittest.TestCase):

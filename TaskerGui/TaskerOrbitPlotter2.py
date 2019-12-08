@@ -311,7 +311,8 @@ class TaskerOrbitPlotter:
             destination.write(content)
             destination.close()
         else:
-            print("skipped " +  url)
+            pass
+            #print("skipped " +  url)
 
     def get_concat_h(self, im1, im2):
         """
