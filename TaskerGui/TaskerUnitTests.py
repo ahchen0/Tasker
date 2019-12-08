@@ -10,6 +10,8 @@ from TaskerPoint import Point
 import threading
 from datetime import datetime
 from matplotlib.backend_bases import MouseEvent, MouseButton
+from PIL import Image
+from math import sqrt
 
 class TestTaskerGuiMethods(unittest.TestCase):
     """
@@ -284,6 +286,277 @@ class TestTaskerStatusBarMethods(unittest.TestCase):
         self.thread.join()
 
 
+class TestTaskerOrbitPlotterMethods(unittest.TestCase):
+
+    def setUp(self):
+        root=tk.Tk()
+        self.app=Application(master=root)
+
+        # Run the GUI in a different thread so it can run simultaneously
+        # with the unit tests
+        self.thread = threading.Thread(target = self.app.mainloop)
+
+    def test_show(self):
+        self.app.canvas.plotter.show()
+        self.assertTrue(self.app.canvas.plotter.fig is not None)
+
+    def test_plot1(self):
+        name = "ISS (ZARYA)"
+        line1 = "1 25544U 98067A   19341.76426397  .00000123  00000-0  10168-4 0  9998"
+        line2 = "2 25544  51.6434 220.7574 0006991  10.3191 120.6360 15.50092039202187"
+        sat = spacecraft(name, line1, line2)
+        self.app.canvas.plotter.plot(sat)
+
+    def test_plot2(self):
+        name = "ORBCOMM FM27"
+        line1 = "1 25481U 98053G   19340.54693811 -.00000035  00000-0  38449-4 0  9990"
+        line2 = "2 25481  45.0083  64.2409 0001227 226.3801 133.6943 14.32857430107779"
+        sat = spacecraft(name, line1, line2)
+        self.app.canvas.plotter.plot(sat)
+
+    def test_plotPoint1(self):
+        point = Point("test1", 42.2808, -83.7430)
+        self.app.canvas.plotter.plotPoint(point)
+
+    def test_plotPoint1(self):
+        point = Point("test2", -42.2808, 83.7430)
+        self.app.canvas.plotter.plotPoint(point)
+
+    def test_search1(self):
+        """
+        According to NASA, the ISS will be above Troy, MI on 12/8/19 at 6:38 PM EST (23:38 UTC).
+        This test verifies that the search function can find this pass according to the TLE
+        generated from celestrak on 12/7/19 around 9:00pm EST.
+        """
+
+        name = "ISS (ZARYA)"
+        line1 = "1 25544U 98067A   19341.76426397  .00000123  00000-0  10168-4 0  9998"
+        line2 = "2 25544  51.6434 220.7574 0006991  10.3191 120.6360 15.50092039202187"
+        sat = spacecraft(name, line1, line2)
+        lat= 42.6064
+        lon = -83.1498
+        timeStart = datetime(2019, 12, 8, 23, 00, 00)
+        timeEnd  = datetime(2019, 12, 8, 23, 59, 00)
+        tolerance = 50
+        timeResult = self.app.canvas.plotter.search(sat, lat, lon, timeStart, timeEnd, tolerance)
+        self.assertTrue(timeResult is not None)
+
+    def test_search2(self):
+        """
+        According to NASA, the ISS will be above Ann Arbor, MI on 12/11/19 at 5:49 PM EST (22:49 UTC).
+        This test verifies that the search function can find this pass according to the TLE
+        generated from celestrak on 12/7/19 around 9:00pm EST.
+        """
+
+        name = "ISS (ZARYA)"
+        line1 = "1 25544U 98067A   19341.76426397  .00000123  00000-0  10168-4 0  9998"
+        line2 = "2 25544  51.6434 220.7574 0006991  10.3191 120.6360 15.50092039202187"
+        sat = spacecraft(name, line1, line2)
+        lat= 42.2808
+        lon = -83.7430
+        timeStart = datetime(2019, 12, 11, 22, 00, 00)
+        timeEnd  = datetime(2019, 12, 11, 23, 00, 00)
+        tolerance = 200
+        timeResult = self.app.canvas.plotter.search(sat, lat, lon, timeStart, timeEnd, tolerance)
+        self.assertTrue(timeResult is not None)
+
+    def test_updateAll(self):
+        time = datetime(2019, 12, 21, 12, 0, 0)
+        self.app.time = time
+        self.app.canvas.plotter.updateAll()
+
+    def test_download_url(self):
+        self.app.canvas.plotter.download_url(5, 2, 3, "maps/test_osm.png")
+        self.assertTrue(os.path.exists("maps/test_osm.png"))
+        
+    def test_get_concat_h(self):
+        self.app.canvas.plotter.download_url(2, 0, 0, "maps/test_concat_h_1.png")
+        self.app.canvas.plotter.download_url(2, 1, 0, "maps/test_concat_h_2.png")
+        im1 = Image.open("maps/test_concat_h_1.png")
+        im2 = Image.open("maps/test_concat_h_2.png")
+        im3 = self.app.canvas.plotter.get_concat_h(im1, im2)
+        im3.save("maps/test_concat_h.png")
+        self.assertTrue(os.path.exists("maps/test_concat_h.png"))
+
+    def test_get_concat_v(self):
+        self.app.canvas.plotter.download_url(2, 0, 0, "maps/test_concat_v_1.png")
+        self.app.canvas.plotter.download_url(2, 0, 1, "maps/test_concat_v_2.png")
+        im1 = Image.open("maps/test_concat_v_1.png")
+        im2 = Image.open("maps/test_concat_v_2.png")
+        im3 = self.app.canvas.plotter.get_concat_v(im1, im2)
+        im3.save("maps/test_concat_v.png")
+        self.assertTrue(os.path.exists("maps/test_concat_v.png"))
+
+    def test_drawMap(self):
+        self.app.canvas.plotter.drawMap()
+        self.assertTrue(os.path.exists("map.png"))
+
+    def test_zoomInTopLeftAndZoomOut(self):
+        event = MouseEvent(name = "button_press_event", button = MouseButton.LEFT, canvas = self.app.canvas.canvas, x = 503, y = 670)
+        event.xdata = -90
+        event.ydata = 45
+        event.button = MouseButton.LEFT
+        currentZoom = self.app.canvas.plotter.zoom
+        currentCenterX = self.app.canvas.plotter.centerX
+        currentCenterY = self.app.canvas.plotter.centerY
+        width = self.app.canvas.plotter.width
+        height = self.app.canvas.plotter.height
+
+        self.app.canvas.plotter.zoomIn(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom + 1)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX - width/4)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY + height/4)
+
+        self.app.canvas.plotter.zoomOut(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY)
+
+    def test_zoomInTopRightAndZoomOut(self):
+        event = MouseEvent(name = "button_press_event", button = MouseButton.LEFT, canvas = self.app.canvas.canvas, x = 503, y = 670)
+        event.xdata = 90
+        event.ydata = 45
+        event.button = MouseButton.LEFT
+        currentZoom = self.app.canvas.plotter.zoom
+        currentCenterX = self.app.canvas.plotter.centerX
+        currentCenterY = self.app.canvas.plotter.centerY
+        width = self.app.canvas.plotter.width
+        height = self.app.canvas.plotter.height
+
+        self.app.canvas.plotter.zoomIn(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom + 1)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX + width/4)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY + height/4)
+
+        self.app.canvas.plotter.zoomOut(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY)
+
+    def test_zoomInBottomLeftAndZoomOut(self):
+        event = MouseEvent(name = "button_press_event", button = MouseButton.LEFT, canvas = self.app.canvas.canvas, x = 503, y = 670)
+        event.xdata = -90
+        event.ydata = -45
+        event.button = MouseButton.LEFT
+        currentZoom = self.app.canvas.plotter.zoom
+        currentCenterX = self.app.canvas.plotter.centerX
+        currentCenterY = self.app.canvas.plotter.centerY
+        width = self.app.canvas.plotter.width
+        height = self.app.canvas.plotter.height
+
+        self.app.canvas.plotter.zoomIn(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom + 1)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX - width/4)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY - height/4)
+
+        self.app.canvas.plotter.zoomOut(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY)
+
+    def test_zoomInBottomRightAndZoomOut(self):
+        event = MouseEvent(name = "button_press_event", button = MouseButton.LEFT, canvas = self.app.canvas.canvas, x = 503, y = 670)
+        event.xdata = 90
+        event.ydata = -45
+        event.button = MouseButton.LEFT
+        currentZoom = self.app.canvas.plotter.zoom
+        currentCenterX = self.app.canvas.plotter.centerX
+        currentCenterY = self.app.canvas.plotter.centerY
+        width = self.app.canvas.plotter.width
+        height = self.app.canvas.plotter.height
+
+        self.app.canvas.plotter.zoomIn(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom + 1)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX + width/4)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY - height/4)
+
+        self.app.canvas.plotter.zoomOut(event)
+        self.assertEqual(self.app.canvas.plotter.zoom, currentZoom)
+        self.assertEqual(self.app.canvas.plotter.centerX, currentCenterX)
+        self.assertEqual(self.app.canvas.plotter.centerY, currentCenterY)
+
+    def test_calcOrientationVector1(self):
+        name = "ISS (ZARYA)"
+        line1 = "1 25544U 98067A   19341.76426397  .00000123  00000-0  10168-4 0  9998"
+        line2 = "2 25544  51.6434 220.7574 0006991  10.3191 120.6360 15.50092039202187"
+        sat = spacecraft(name, line1, line2)
+        point = Point("test1", 0, 0)
+
+        # Search for at time when ISS is over the point
+        timeStart = datetime(2019, 12, 8, 0, 0, 0)
+        timeEnd = datetime(2019, 12, 15, 0, 0, 0)
+        tolerance = 200
+        time = self.app.canvas.plotter.search(sat, 0, 0, timeStart, timeEnd, tolerance)
+        self.app.time = time
+        self.app.canvas.plotter.updateAll()
+
+        # Get orientation vector
+        vector = self.app.canvas.plotter.calcOrientationVector(sat, point)
+        self.assertTrue(vector[0] < -400) # x-component should be greater than ISS altitude
+        self.assertTrue(abs(vector[1]) < tolerance)
+        self.assertTrue(abs(vector[2]) < tolerance)
+
+    def test_calcOrientationVector2(self):
+        name = "ISS (ZARYA)"
+        line1 = "1 25544U 98067A   19341.76426397  .00000123  00000-0  10168-4 0  9998"
+        line2 = "2 25544  51.6434 220.7574 0006991  10.3191 120.6360 15.50092039202187"
+        sat = spacecraft(name, line1, line2)
+        point = Point("test2", 0, 90)
+
+        # Search for at time when ISS is over the point
+        timeStart = datetime(2019, 12, 8, 0, 0, 0)
+        timeEnd = datetime(2019, 12, 15, 0, 0, 0)
+        tolerance = 200
+        time = self.app.canvas.plotter.search(sat, 0, 90, timeStart, timeEnd, tolerance)
+        self.app.time = time
+        self.app.canvas.plotter.updateAll()
+
+        # Get orientation vector
+        vector = self.app.canvas.plotter.calcOrientationVector(sat, point)
+        self.assertTrue(abs(vector[0]) < tolerance)
+        self.assertTrue(vector[1] < -400) # y-component should be greater than ISS altitude
+        self.assertTrue(abs(vector[2]) < tolerance)
+
+    def test_calcOrientationVector3(self):
+        name = "ISS (ZARYA)"
+        line1 = "1 25544U 98067A   19341.76426397  .00000123  00000-0  10168-4 0  9998"
+        line2 = "2 25544  51.6434 220.7574 0006991  10.3191 120.6360 15.50092039202187"
+        sat = spacecraft(name, line1, line2)
+        point = Point("test2", 42, -83)
+
+        # Search for at time when ISS is over the point
+        timeStart = datetime(2019, 12, 8, 0, 0, 0)
+        timeEnd = datetime(2019, 12, 15, 0, 0, 0)
+        tolerance = 200
+        time = self.app.canvas.plotter.search(sat, 42, -83, timeStart, timeEnd, tolerance)
+        self.app.time = time
+        self.app.canvas.plotter.updateAll()
+
+        # Get orientation vector
+        vector = self.app.canvas.plotter.calcOrientationVector(sat, point)
+        self.assertTrue(sqrt(vector[0]**2 + vector[1]**2 + vector[2]**2) > 400 and
+                        sqrt(vector[0]**2 + vector[1]**2 + vector[2]**2) < 500) 
+                        # Magnitude of vector should be approximately ISS altitude
+
+
+    def test_lla2ecef1(self):
+        p = self.app.canvas.plotter.lla2ecef(45, 90, 2)
+        self.assertTrue(abs(p[0] - 0) < 100)
+        self.assertTrue(abs(p[1] - 4519) < 1)
+        self.assertTrue(abs(p[2] - 4488.8) < 1)
+        
+    def test_lla2ecef2(self):
+        p = self.app.canvas.plotter.lla2ecef(0, 45, 1)
+        self.assertTrue(abs(p[0] - 4510.7) < 1)
+        self.assertTrue(abs(p[1] - 4510.7) < 1)
+        self.assertTrue(abs(p[2] - 0) < 100)
+        
+
+    def cleanUp(self):
+        # Join the threads on close out
+        self.thread.join()
+
+
 class TestMultiColumnListBox(unittest.TestCase):
     """
     Unit Test for multi-column listbox
@@ -310,6 +583,7 @@ class TestSatCatScraper(unittest.TestCase):
         lines = file.readlines()
         name = lines[0]
         line1 = lines[1]
+
         line2 = lines[2]
 
         self.assertEqual(name.strip(), "CALSPHERE 1")

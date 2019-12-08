@@ -124,7 +124,7 @@ class TaskerTreeView(tk.Frame):
                 self.treeview.insert(f_id, 'end', values =(["text", "Element Set Number: " + satellite.elementSetNumber],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Inclination: " + satellite.inclination],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "R.A.A.N.: " + satellite.raan],), hidden = "image")
-                self.treeview.insert(f_id, 'end', values =(["text", "Eccentricity: 0." + satellite.eccentricity],), hidden = "image")
+                self.treeview.insert(f_id, 'end', values =(["text", "Eccentricity: " + satellite.eccentricity],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Arg of Perigee: " + satellite.argumentOfPerigee],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Mean Anomaly: " + satellite.meanAnomaly],), hidden = "image")
                 self.treeview.insert(f_id, 'end', values =(["text", "Mean Motion: " + satellite.meanMotion],), hidden = "image")

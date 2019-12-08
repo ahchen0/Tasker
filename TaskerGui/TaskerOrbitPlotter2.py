@@ -294,14 +294,14 @@ class TaskerOrbitPlotter:
         """
         
         url = "http://c.tile.openstreetmap.org/%d/%d/%d.png" % (zoom, xtile, ytile)
-        dir_path = "tiles/%d/%d/" % (zoom, xtile)
-        download_path = "maps/map%d%d%d.png" % (zoom, xtile, ytile)
+        #dir_path = "tiles/%d/%d/" % (zoom, xtile)
+        #download_path = "maps/map%d%d%d.png" % (zoom, xtile, ytile)
         header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"}
         
-        if not os.path.exists(dir_path):
-            os.makedirs(dir_path)
+        #if not os.path.exists(dir_path):
+        #    os.makedirs(dir_path)
         
-        if(not os.path.isfile(download_path)):
+        if(not os.path.exists(filename)):
             print("downloading " + url)
             req = urllib.request.Request(url, data = None, headers = header)
             source = urllib.request.urlopen(req)
@@ -482,24 +482,22 @@ class TaskerOrbitPlotter:
         subpoint = geocentric.subpoint()
         satLatitude = subpoint.latitude.degrees
         satLongitude = subpoint.longitude.degrees
-        satAltitude  = subpoint.elevation.km + R_earth
+        satAltitude  = subpoint.elevation.km
 
         satEcef = self.lla2ecef(satLatitude, satLongitude, satAltitude)
-        pntEcef = self.lla2ecef(point.lat, point.lon, R_earth)
+        pntEcef = self.lla2ecef(point.lat, point.lon, 0)
         rstEcef = [pntEcef[0] - satEcef[0], pntEcef[1] - satEcef[1], pntEcef[2] - satEcef[2]]
         return rstEcef
         
-
+    """
     def lla2ecef(self, lat, lng, alt):
-        """
-        Converts coordinates between LLA [deg, deg, km] and ECEF [km, km, km]
+        #Converts coordinates between LLA [deg, deg, km] and ECEF [km, km, km]
 
-        :param float lat: latitude [deg]
-        :param float lng: longitude [deg]
-        :param float alt: altitude [km]
-        :returns: Converted ECEF coordinates (in km)
-        :rtype: [float, float, float]
-        """
+        #:param float lat: latitude [deg]
+        #:param float lng: longitude [deg]
+        #:param float alt: altitude [km]
+        #:returns: Converted ECEF coordinates (in km)
+        #:rtype: [float, float, float]
 
         d2r = pi/180
         f = (1-1/298.257223563)**2 #WGS84 flattening
@@ -517,3 +515,45 @@ class TaskerOrbitPlotter:
 
         ecef = [k1*cos(lng), k1*sin(lng), r*slambda + alt*sin(lat)]
         return ecef
+    """
+
+    def lla2ecef(self, latitude, longitude, altitude):
+        """
+        Converts coordinates between LLA [deg, deg, km] and ECEF [km, km, km]
+
+        :param float lat: latitude [deg]
+        :param float lng: longitude [deg]
+        :param float alt: altitude [km]
+        :returns: Converted ECEF coordinates (in km)
+        :rtype: [float, float, float]
+        """
+
+        altitude = altitude * 1000 # Convert to meters
+        a = 6378137.0
+        e = 8.1819190842622 * 10**(-2)
+        DEG2RAD = pi / 180
+        sinLat = sin(DEG2RAD * latitude)
+        sinLon = sin(DEG2RAD * longitude)
+        cosLat = cos(DEG2RAD * latitude)
+        cosLon = cos(DEG2RAD * longitude)
+
+        N = a / sqrt(1.0 - e * e * sinLat * sinLat)
+
+        return [(N + altitude) * cosLat * cosLon / 1000, (N + altitude) * cosLat * sinLon / 1000, ((1 - e * e) * N + altitude) * sinLat / 1000]
+
+    """
+    def lla2ecef(self, lat, lon, alt):
+        # see http://www.mathworks.de/help/toolbox/aeroblks/llatoecefposition.html
+        rad = np.float64(6378137.0)        # Radius of the Earth (in meters)
+        f = np.float64(1.0/298.257223563)  # Flattening factor WGS84 Model
+        cosLat = np.cos(lat*pi/180)
+        sinLat = np.sin(lat*pi/180)
+        FF     = (1.0-f)**2
+        C      = 1/np.sqrt(cosLat**2 + FF * sinLat**2)
+        S      = C * FF
+
+        x = (rad * C + alt)*cosLat * np.cos(lon)
+        y = (rad * C + alt)*cosLat * np.sin(lon)
+        z = (rad * S + alt)*sinLat
+        return [x, y, z]
+    """
