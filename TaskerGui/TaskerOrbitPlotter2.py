@@ -488,34 +488,6 @@ class TaskerOrbitPlotter:
         pntEcef = self.lla2ecef(point.lat, point.lon, 0)
         rstEcef = [pntEcef[0] - satEcef[0], pntEcef[1] - satEcef[1], pntEcef[2] - satEcef[2]]
         return rstEcef
-        
-    """
-    def lla2ecef(self, lat, lng, alt):
-        #Converts coordinates between LLA [deg, deg, km] and ECEF [km, km, km]
-
-        #:param float lat: latitude [deg]
-        #:param float lng: longitude [deg]
-        #:param float alt: altitude [km]
-        #:returns: Converted ECEF coordinates (in km)
-        #:rtype: [float, float, float]
-
-        d2r = pi/180
-        f = (1-1/298.257223563)**2 #WGS84 flattening
-        R = 6378.1370 #WGS84 equatorial radius (km)
-
-        lat = lat*d2r
-        lon = lng*d2r
-
-        lmbda = atan(f*tan(lat)); #mean sea level at lat
-        slambda = sin(lmbda)
-        clambda = cos(lmbda)
-
-        r = sqrt( R**2/(1+(1/f-1)*slambda**2) ) #radius at surface point
-        k1 = r*clambda + alt*cos(lat)
-
-        ecef = [k1*cos(lng), k1*sin(lng), r*slambda + alt*sin(lat)]
-        return ecef
-    """
 
     def lla2ecef(self, latitude, longitude, altitude):
         """
@@ -540,20 +512,3 @@ class TaskerOrbitPlotter:
         N = a / sqrt(1.0 - e * e * sinLat * sinLat)
 
         return [(N + altitude) * cosLat * cosLon / 1000, (N + altitude) * cosLat * sinLon / 1000, ((1 - e * e) * N + altitude) * sinLat / 1000]
-
-    """
-    def lla2ecef(self, lat, lon, alt):
-        # see http://www.mathworks.de/help/toolbox/aeroblks/llatoecefposition.html
-        rad = np.float64(6378137.0)        # Radius of the Earth (in meters)
-        f = np.float64(1.0/298.257223563)  # Flattening factor WGS84 Model
-        cosLat = np.cos(lat*pi/180)
-        sinLat = np.sin(lat*pi/180)
-        FF     = (1.0-f)**2
-        C      = 1/np.sqrt(cosLat**2 + FF * sinLat**2)
-        S      = C * FF
-
-        x = (rad * C + alt)*cosLat * np.cos(lon)
-        y = (rad * C + alt)*cosLat * np.sin(lon)
-        z = (rad * S + alt)*sinLat
-        return [x, y, z]
-    """
